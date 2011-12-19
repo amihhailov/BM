@@ -38,13 +38,13 @@
             this.gridRates = new System.Windows.Forms.DataGridView();
             this.tabCalls = new System.Windows.Forms.TabPage();
             this.gridCalls = new System.Windows.Forms.DataGridView();
+            this.lblTotalRows = new System.Windows.Forms.Label();
             this.btnCalls = new System.Windows.Forms.Button();
             this.btnRates = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnCountry = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFileDialogCalls = new System.Windows.Forms.OpenFileDialog();
-            this.lblTotalRows = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -128,6 +128,8 @@
             // 
             // gridCountry
             // 
+            this.gridCountry.AllowUserToAddRows = false;
+            this.gridCountry.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gridCountry.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCountry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridCountry.Location = new System.Drawing.Point(3, 3);
@@ -149,6 +151,8 @@
             // 
             // gridRates
             // 
+            this.gridRates.AllowUserToAddRows = false;
+            this.gridRates.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gridRates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridRates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridRates.Location = new System.Drawing.Point(3, 3);
@@ -170,12 +174,24 @@
             // 
             // gridCalls
             // 
+            this.gridCalls.AllowUserToAddRows = false;
+            this.gridCalls.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.gridCalls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCalls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridCalls.Location = new System.Drawing.Point(3, 3);
             this.gridCalls.Name = "gridCalls";
             this.gridCalls.Size = new System.Drawing.Size(679, 412);
             this.gridCalls.TabIndex = 0;
+            // 
+            // lblTotalRows
+            // 
+            this.lblTotalRows.AutoSize = true;
+            this.lblTotalRows.Location = new System.Drawing.Point(104, 9);
+            this.lblTotalRows.Name = "lblTotalRows";
+            this.lblTotalRows.Size = new System.Drawing.Size(77, 13);
+            this.lblTotalRows.TabIndex = 5;
+            this.lblTotalRows.Text = "Total Records:";
+            this.lblTotalRows.Visible = false;
             // 
             // btnCalls
             // 
@@ -234,16 +250,6 @@
             // openFileDialogCalls
             // 
             this.openFileDialogCalls.FileName = "openFileDialog1";
-            // 
-            // lblTotalRows
-            // 
-            this.lblTotalRows.AutoSize = true;
-            this.lblTotalRows.Location = new System.Drawing.Point(104, 9);
-            this.lblTotalRows.Name = "lblTotalRows";
-            this.lblTotalRows.Size = new System.Drawing.Size(77, 13);
-            this.lblTotalRows.TabIndex = 5;
-            this.lblTotalRows.Text = "Total Records:";
-            this.lblTotalRows.Visible = false;
             // 
             // BillingSystem
             // 
