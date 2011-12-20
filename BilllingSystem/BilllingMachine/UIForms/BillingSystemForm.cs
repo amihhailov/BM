@@ -13,7 +13,14 @@ namespace BilllingMachine.UIForms
 {
     public partial class BillingSystem : Form
     {
+        const string COUNTRY_FILE_NAME = ("..\\..\\DataSources\\country.txt");
+        const string RATES_FILE_NAME = ("..\\..\\DataSources\\rates.csv");
+
         public List<DataGridView> gridsList = new List<DataGridView>();
+
+        private LoadCountry loadCountry;
+        private LoadRates loadRates;
+        private LoadCalls loadCalls;
 
         public BillingSystem()
         {
@@ -65,7 +72,12 @@ namespace BilllingMachine.UIForms
 
         private void btnCountry_Click(object sender, EventArgs e)
         {
-            this.gridCountry.DataSource = BusinessLogic.LoadCountry().Tables[0].DefaultView;
+            //this.gridCountry.DataSource = BusinessLogic.LoadCountry().Tables[0].DefaultView;
+            if (loadCountry == null)
+            {
+                loadCountry = new LoadCountry();
+                this.gridCountry.DataSource = loadCountry.LoadData(COUNTRY_FILE_NAME).Tables[0].DefaultView;
+            }
             this.lblTotalRows.Text = this.getTotalCounrtyRows();
         }
 
@@ -74,13 +86,19 @@ namespace BilllingMachine.UIForms
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open Calls TXT File";
             fDialog.Filter = "TXT Files|calls*.txt";
-            fDialog.InitialDirectory = @"C:\";
+            fDialog.InitialDirectory = Environment.CurrentDirectory;
+            // fDialog.InitialDirectory = @"C:\";
             fDialog.AddExtension = true;
             fDialog.CheckFileExists = true;
             fDialog.CheckPathExists = true;
             if (fDialog.ShowDialog() == DialogResult.OK)
             {
-                this.gridCalls.DataSource = BusinessLogic.LoadCalls(fDialog.FileName.ToString()).Tables[0].DefaultView;
+                // this.gridCalls.DataSource = BusinessLogic.LoadCalls(fDialog.FileName.ToString()).Tables[0].DefaultView;
+                if (loadCalls == null)
+                {
+                    loadCalls = new LoadCalls();
+                    this.gridCalls.DataSource = loadCalls.LoadData(fDialog.FileName.ToString()).Tables[0].DefaultView;
+                }
                 this.lblTotalRows.Text = this.getTotalCallsRows();
                 this.btnRun.Enabled = true;
             }
@@ -88,7 +106,12 @@ namespace BilllingMachine.UIForms
 
         private void btnRates_Click(object sender, EventArgs e)
         {
-            this.gridRates.DataSource = BusinessLogic.LoadRates().Tables[0].DefaultView;
+            // this.gridRates.DataSource = BusinessLogic.LoadRates().Tables[0].DefaultView;
+            if (loadRates == null)
+            {
+                loadRates = new LoadRates();
+                this.gridRates.DataSource = loadRates.LoadData(RATES_FILE_NAME).Tables[0].DefaultView;
+            }
             this.lblTotalRows.Text = this.getTotalRatesRows();
         }
 

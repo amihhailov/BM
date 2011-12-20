@@ -49,7 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataClasses\BusinessLogic.cs" />
-    <Compile Include="Models\Rates.cs" />
+    <Compile Include="DataClasses\ILoadData.cs" />
+    <Compile Include="DataClasses\LoadCalls.cs" />
+    <Compile Include="DataClasses\LoadCountry.cs" />
+    <Compile Include="DataClasses\LoadRates.cs" />
+    <Compile Include="DataClasses\Rates.cs" />
     <Compile Include="UIForms\BillingSystemForm.cs">
       <SubType>Form</SubType>
     </Compile>
