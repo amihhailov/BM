@@ -7,17 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using BilllingMachine.DataClasses;
+using BilllingMachine.Data;
+using BilllingMachine.Models;
 
 namespace BilllingMachine.UIForms
 {
     public partial class BillingSystem : Form
     {
         const string EMPTY_STRING = "";
-        const string COUNTRY_FILE_NAME = ("..\\..\\DataSources\\country.txt");
-        const string RATES_FILE_NAME = ("..\\..\\DataSources\\rates.csv");
+        const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
+        const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
+
+        public Dictionary<string, Country> DCountry = new Dictionary<string, Country>();
+        public Dictionary<string, Rates> DRates = new Dictionary<string, Rates>();
 
         private List<DataGridView> gridsList = new List<DataGridView>();
+
 
         Factory[] Factories = new Factory[3];
 

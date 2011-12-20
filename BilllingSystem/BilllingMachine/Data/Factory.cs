@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BilllingMachine.DataClasses
+namespace BilllingMachine.Data
 {
     public abstract class Factory
     {

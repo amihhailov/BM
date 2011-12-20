@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BilllingMachine.DataClasses
+namespace BilllingMachine.Models
 {
-    class Rates
+    public class Rates : Country
     {
-        public string Direction { get; set; }
-        public string FullDirection { get; set; }
+        // Default constructor
+        public Rates() { }
+
+        // Properties
+        //public string Direction { get; set; }
+        public string MobilePrice { get; set; }
+        public string FixedPrice { get; set; }
     }
 }

@@ -48,15 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataClasses\Factory.cs" />
-    <Compile Include="DataClasses\FactoryCalls.cs" />
-    <Compile Include="DataClasses\FactoryCountry.cs" />
-    <Compile Include="DataClasses\FactoryRates.cs" />
-    <Compile Include="DataClasses\ProcessData.cs" />
-    <Compile Include="DataClasses\ILoadData.cs" />
-    <Compile Include="DataClasses\LoadCalls.cs" />
-    <Compile Include="DataClasses\LoadCountry.cs" />
-    <Compile Include="DataClasses\LoadRates.cs" />
+    <Compile Include="Data\Factory.cs" />
+    <Compile Include="Data\FactoryCalls.cs" />
+    <Compile Include="Data\FactoryCountry.cs" />
+    <Compile Include="Data\FactoryRates.cs" />
+    <Compile Include="Data\Globals.cs" />
+    <Compile Include="Data\ProcessData.cs" />
+    <Compile Include="Data\ILoadData.cs" />
+    <Compile Include="Data\LoadCalls.cs" />
+    <Compile Include="Data\LoadCountry.cs" />
+    <Compile Include="Data\LoadRates.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Rates.cs" />
     <Compile Include="UIForms\BillingSystemForm.cs">
@@ -79,7 +80,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="DataSources\rates.csv" />
+    <None Include="Resources\rates.csv" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -91,10 +92,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataSources\calls1.txt" />
-    <Content Include="DataSources\calls2.txt" />
-    <Content Include="DataSources\calls3.txt" />
-    <Content Include="DataSources\country.txt" />
+    <Content Include="Resources\calls1.txt" />
+    <Content Include="Resources\calls2.txt" />
+    <Content Include="Resources\calls3.txt" />
+    <Content Include="Resources\country.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,32 +5,36 @@ using System.Text;
 using System.Data;
 using System.IO;
 
-namespace BilllingMachine.DataClasses
-{
-    public class LoadRates : ILoadData
-    {
+using BilllingMachine.UIForms;
+using BilllingMachine.Models;
 
+namespace BilllingMachine.Data
+{
+    public class LoadCountry : ILoadData
+    {
         #region ILoadData Members
 
         public DataSet LoadData(string fileName)
         {
-            const string LINE_FOLDING = "\r\n";
-            const string DELIMETER_SYMBOL = ";";
-            const string RATES_GRID_NAME = "gridRates";
+            const int GRID_COLUMN_NUM = 3;
 
+            const string LINE_FOLDING = "\r\n";
+            const string DELIMETER_SYMBOL = ",";
+            const string COUNTRY_GRID_NAME = "gridCountry";
+                       
             StreamReader sReader = null;
             DataSet dataset = new DataSet();
 
             try
             {
                 sReader = new StreamReader(fileName);
-                dataset.Tables.Add(RATES_GRID_NAME);
-                // The direction name 
-                dataset.Tables[RATES_GRID_NAME].Columns.Add("Direction");
-                // The price per minute for mobile networks
-                dataset.Tables[RATES_GRID_NAME].Columns.Add("Price per minute / Mobile");
-                // The price per minute for fixed networks
-                dataset.Tables[RATES_GRID_NAME].Columns.Add("Price per minute / Fixed");
+                dataset.Tables.Add(COUNTRY_GRID_NAME);
+                // The phone code 
+                dataset.Tables[COUNTRY_GRID_NAME].Columns.Add("Code");
+                // The full name of the direction
+                dataset.Tables[COUNTRY_GRID_NAME].Columns.Add("Full Direction");
+                // The direction name
+                dataset.Tables[COUNTRY_GRID_NAME].Columns.Add("Direction");
 
                 string allData = sReader.ReadToEnd();
                 string[] rows = allData.Split(LINE_FOLDING.ToCharArray());
@@ -39,8 +43,11 @@ namespace BilllingMachine.DataClasses
                 {
                     if (row.Length == 0) continue;
                     string[] columns = row.Split(DELIMETER_SYMBOL.ToCharArray());
-                    if (columns.Length != 3) throw new DataException("Invalid 'rates.csv' file format.");
-                    dataset.Tables[RATES_GRID_NAME].Rows.Add(columns);
+                    if (columns.Length != GRID_COLUMN_NUM) 
+                        throw new DataException("Invalid 'country.txt' file format.");
+                    dataset.Tables[COUNTRY_GRID_NAME].Rows.Add(columns);
+                    Country country = new Country(columns[0].Trim(), columns[1].Trim(), columns[2].Trim());
+                    //DCountry. 
                 }
             }
             catch (DirectoryNotFoundException e)

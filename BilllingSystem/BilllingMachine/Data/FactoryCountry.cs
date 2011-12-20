@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BilllingMachine.DataClasses
+namespace BilllingMachine.Data
 {
-    class FactoryRates : Factory
+    class FactoryCountry : Factory
     {
         //Factory Method Implementation 
-        public override ILoadData GetDataSource()
+        public override ILoadData GetDataSource() 
         {
-            return new LoadRates();
+            return new LoadCountry();
         } 
     }
 }

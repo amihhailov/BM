@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.IO;
 
-namespace BilllingMachine.DataClasses
+using BilllingMachine.UIForms;
+
+namespace BilllingMachine.Data
 {
-    public interface ILoadData
+    public static class ProcessData
     {
-        DataSet LoadData(string fileName);
+        
     }
 }

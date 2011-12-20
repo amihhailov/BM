@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.IO;
 
-namespace BilllingMachine.DataClasses
+namespace BilllingMachine.Data
 {
     public class LoadCalls : ILoadData
     {
