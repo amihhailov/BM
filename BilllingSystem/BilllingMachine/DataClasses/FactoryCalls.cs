@@ -5,12 +5,12 @@ using System.Text;
 
 namespace BilllingMachine.DataClasses
 {
-    class LoadCountryFactory : Factory
+    class FactoryCalls : Factory
     {
         //Factory Method Implementation 
         public override ILoadData GetDataSource() 
         {
-            return new LoadCountry();
+            return new LoadCalls();
         } 
     }
 }

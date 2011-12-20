@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F61BD117-C936-401B-A522-4555086B9AD3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -49,9 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataClasses\Factory.cs" />
-    <Compile Include="DataClasses\LoadCallsFactory.cs" />
-    <Compile Include="DataClasses\LoadCountryFactory.cs" />
-    <Compile Include="DataClasses\LoadRatesFactory.cs" />
+    <Compile Include="DataClasses\FactoryCalls.cs" />
+    <Compile Include="DataClasses\FactoryCountry.cs" />
+    <Compile Include="DataClasses\FactoryRates.cs" />
     <Compile Include="DataClasses\ProcessData.cs" />
     <Compile Include="DataClasses\ILoadData.cs" />
     <Compile Include="DataClasses\LoadCalls.cs" />

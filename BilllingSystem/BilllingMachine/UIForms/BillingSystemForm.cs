@@ -17,9 +17,12 @@ namespace BilllingMachine.UIForms
         const string COUNTRY_FILE_NAME = ("..\\..\\DataSources\\country.txt");
         const string RATES_FILE_NAME = ("..\\..\\DataSources\\rates.csv");
 
-        public List<DataGridView> gridsList = new List<DataGridView>();
+        private List<DataGridView> gridsList = new List<DataGridView>();
 
         Factory[] Factories = new Factory[3];
+
+        private string callsFileName = EMPTY_STRING;
+        private string callsFilesPath = EMPTY_STRING;
 
         //private LoadCountry loadCountry;
         //private LoadRates loadRates;
@@ -60,7 +63,7 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = false;
                     btnCalls.Visible = true;
                     lblTotalRows.Visible = true;
-                    lblTotalRows.Text = this.getTotalCallsRows(EMPTY_STRING);
+                    lblTotalRows.Text = this.getTotalCallsRows(callsFileName);
                     break;
             }
         }
@@ -81,15 +84,17 @@ namespace BilllingMachine.UIForms
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open Calls TXT File";
             fDialog.Filter = "TXT Files|calls*.txt";
-            fDialog.InitialDirectory = Environment.CurrentDirectory;
+            fDialog.InitialDirectory = (callsFilesPath.Equals(EMPTY_STRING)) ? Environment.CurrentDirectory : callsFilesPath;
             // fDialog.InitialDirectory = @"C:\";
             fDialog.AddExtension = true;
             fDialog.CheckFileExists = true;
             fDialog.CheckPathExists = true;
             if (fDialog.ShowDialog() == DialogResult.OK)
             {
-                this.gridCalls.DataSource = Factories[2].GetDataSource().LoadData(fDialog.FileName.ToString()).Tables[0].DefaultView;
-                this.lblTotalRows.Text = this.getTotalCallsRows(fDialog.SafeFileName);
+                callsFilesPath = fDialog.FileName.ToString();
+                callsFileName = fDialog.SafeFileName;
+                this.gridCalls.DataSource = Factories[2].GetDataSource().LoadData(callsFilesPath).Tables[0].DefaultView;
+                this.lblTotalRows.Text = this.getTotalCallsRows(callsFileName);
                 this.btnRun.Enabled = true;
             }
         }
@@ -147,9 +152,9 @@ namespace BilllingMachine.UIForms
 
         private void BillingSystem_Load(object sender, EventArgs e)
         {
-            Factories[0] = new LoadCountryFactory();
-            Factories[1] = new LoadRatesFactory();
-            Factories[2] = new LoadCallsFactory();
+            Factories[0] = new FactoryCountry();
+            Factories[1] = new FactoryRates();
+            Factories[2] = new FactoryCalls();
 
             gridsList.Add(this.gridCountry);
             gridsList.Add(this.gridRates);
