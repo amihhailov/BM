@@ -9,7 +9,7 @@ using BilllingMachine.UIForms;
 
 namespace BilllingMachine.DataClasses
 {
-    public static class BusinessLogic
+    public static class ProcessData
     {
         const string LINE_FOLDING = "\r\n";
 

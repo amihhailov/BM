@@ -48,12 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataClasses\BusinessLogic.cs" />
+    <Compile Include="DataClasses\Factory.cs" />
+    <Compile Include="DataClasses\LoadCallsFactory.cs" />
+    <Compile Include="DataClasses\LoadCountryFactory.cs" />
+    <Compile Include="DataClasses\LoadRatesFactory.cs" />
+    <Compile Include="DataClasses\ProcessData.cs" />
     <Compile Include="DataClasses\ILoadData.cs" />
     <Compile Include="DataClasses\LoadCalls.cs" />
     <Compile Include="DataClasses\LoadCountry.cs" />
     <Compile Include="DataClasses\LoadRates.cs" />
-    <Compile Include="DataClasses\Rates.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Rates.cs" />
     <Compile Include="UIForms\BillingSystemForm.cs">
       <SubType>Form</SubType>
     </Compile>

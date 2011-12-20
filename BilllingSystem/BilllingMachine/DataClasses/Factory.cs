@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data;
 
 namespace BilllingMachine.DataClasses
 {
-    public interface ILoadData
+    public abstract class Factory
     {
-        DataSet LoadData(string fileName);
+        //Factory Method Declaration 
+        public abstract ILoadData GetDataSource(); 
     }
 }

@@ -260,6 +260,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "BillingSystem";
             this.Text = "BillingSystem";
+            this.Load += new System.EventHandler(this.BillingSystem_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();

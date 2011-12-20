@@ -13,22 +13,22 @@ namespace BilllingMachine.UIForms
 {
     public partial class BillingSystem : Form
     {
+        const string EMPTY_STRING = "";
         const string COUNTRY_FILE_NAME = ("..\\..\\DataSources\\country.txt");
         const string RATES_FILE_NAME = ("..\\..\\DataSources\\rates.csv");
 
         public List<DataGridView> gridsList = new List<DataGridView>();
 
-        private LoadCountry loadCountry;
-        private LoadRates loadRates;
-        private LoadCalls loadCalls;
+        Factory[] Factories = new Factory[3];
+
+        //private LoadCountry loadCountry;
+        //private LoadRates loadRates;
+        //private LoadCalls loadCalls;
 
         public BillingSystem()
         {
             InitializeComponent();
             tabCommon.SelectedIndexChanged += new EventHandler(tabCommon_SelectedIndexchanged);
-            gridsList.Add(this.gridCountry);
-            gridsList.Add(this.gridRates);
-            gridsList.Add(this.gridCalls);
         }
 
         private void tabCommon_SelectedIndexchanged(object sender, EventArgs e)
@@ -60,7 +60,7 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = false;
                     btnCalls.Visible = true;
                     lblTotalRows.Visible = true;
-                    lblTotalRows.Text = this.getTotalCallsRows();
+                    lblTotalRows.Text = this.getTotalCallsRows(EMPTY_STRING);
                     break;
             }
         }
@@ -72,12 +72,7 @@ namespace BilllingMachine.UIForms
 
         private void btnCountry_Click(object sender, EventArgs e)
         {
-            //this.gridCountry.DataSource = BusinessLogic.LoadCountry().Tables[0].DefaultView;
-            if (loadCountry == null)
-            {
-                loadCountry = new LoadCountry();
-                this.gridCountry.DataSource = loadCountry.LoadData(COUNTRY_FILE_NAME).Tables[0].DefaultView;
-            }
+            this.gridCountry.DataSource = Factories[0].GetDataSource().LoadData(COUNTRY_FILE_NAME).Tables[0].DefaultView;
             this.lblTotalRows.Text = this.getTotalCounrtyRows();
         }
 
@@ -93,25 +88,15 @@ namespace BilllingMachine.UIForms
             fDialog.CheckPathExists = true;
             if (fDialog.ShowDialog() == DialogResult.OK)
             {
-                // this.gridCalls.DataSource = BusinessLogic.LoadCalls(fDialog.FileName.ToString()).Tables[0].DefaultView;
-                if (loadCalls == null)
-                {
-                    loadCalls = new LoadCalls();
-                    this.gridCalls.DataSource = loadCalls.LoadData(fDialog.FileName.ToString()).Tables[0].DefaultView;
-                }
-                this.lblTotalRows.Text = this.getTotalCallsRows();
+                this.gridCalls.DataSource = Factories[2].GetDataSource().LoadData(fDialog.FileName.ToString()).Tables[0].DefaultView;
+                this.lblTotalRows.Text = this.getTotalCallsRows(fDialog.SafeFileName);
                 this.btnRun.Enabled = true;
             }
         }
 
         private void btnRates_Click(object sender, EventArgs e)
         {
-            // this.gridRates.DataSource = BusinessLogic.LoadRates().Tables[0].DefaultView;
-            if (loadRates == null)
-            {
-                loadRates = new LoadRates();
-                this.gridRates.DataSource = loadRates.LoadData(RATES_FILE_NAME).Tables[0].DefaultView;
-            }
+            this.gridRates.DataSource = Factories[1].GetDataSource().LoadData(RATES_FILE_NAME).Tables[0].DefaultView;
             this.lblTotalRows.Text = this.getTotalRatesRows();
         }
 
@@ -148,9 +133,27 @@ namespace BilllingMachine.UIForms
             return string.Format("{0}: {1}", "Total Records", this.gridRates.RowCount);
         }
 
-        private string getTotalCallsRows()
+        private string getTotalCallsRows(string fileName)
         {
-            return string.Format("{0}: {1}", "Total Records", this.gridCalls.RowCount);
+            if (fileName.Equals(EMPTY_STRING))
+            {
+                return string.Format("{0}: {1}", "Total Records", this.gridCalls.RowCount);
+            }
+            else
+            {
+                return string.Format("{0} '{1}': {2}", "Total Records in", fileName, this.gridCalls.RowCount);
+            }
+        }
+
+        private void BillingSystem_Load(object sender, EventArgs e)
+        {
+            Factories[0] = new LoadCountryFactory();
+            Factories[1] = new LoadRatesFactory();
+            Factories[2] = new LoadCallsFactory();
+
+            gridsList.Add(this.gridCountry);
+            gridsList.Add(this.gridRates);
+            gridsList.Add(this.gridCalls);
         }
     }
 }
