@@ -133,7 +133,10 @@
             this.gridCountry.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCountry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridCountry.Location = new System.Drawing.Point(3, 3);
+            this.gridCountry.MultiSelect = false;
             this.gridCountry.Name = "gridCountry";
+            this.gridCountry.ReadOnly = true;
+            this.gridCountry.RowTemplate.ReadOnly = true;
             this.gridCountry.Size = new System.Drawing.Size(679, 412);
             this.gridCountry.TabIndex = 0;
             // 
@@ -156,7 +159,10 @@
             this.gridRates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridRates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridRates.Location = new System.Drawing.Point(3, 3);
+            this.gridRates.MultiSelect = false;
             this.gridRates.Name = "gridRates";
+            this.gridRates.ReadOnly = true;
+            this.gridRates.RowTemplate.ReadOnly = true;
             this.gridRates.Size = new System.Drawing.Size(679, 412);
             this.gridRates.TabIndex = 1;
             // 
@@ -179,7 +185,10 @@
             this.gridCalls.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridCalls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridCalls.Location = new System.Drawing.Point(3, 3);
+            this.gridCalls.MultiSelect = false;
             this.gridCalls.Name = "gridCalls";
+            this.gridCalls.ReadOnly = true;
+            this.gridCalls.RowTemplate.ReadOnly = true;
             this.gridCalls.Size = new System.Drawing.Size(679, 412);
             this.gridCalls.TabIndex = 0;
             // 

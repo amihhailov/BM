@@ -14,24 +14,15 @@ namespace BilllingMachine.UIForms
 {
     public partial class BillingSystem : Form
     {
-        const string EMPTY_STRING = "";
         const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
         const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
 
-        public Dictionary<string, Country> DCountry = new Dictionary<string, Country>();
-        public Dictionary<string, Rates> DRates = new Dictionary<string, Rates>();
-
         private List<DataGridView> gridsList = new List<DataGridView>();
-
 
         Factory[] Factories = new Factory[3];
 
-        private string callsFileName = EMPTY_STRING;
-        private string callsFilesPath = EMPTY_STRING;
-
-        //private LoadCountry loadCountry;
-        //private LoadRates loadRates;
-        //private LoadCalls loadCalls;
+        private string callsFileName = Globals.EMPTY_STRING;
+        private string callsFilesPath = Globals.EMPTY_STRING;
 
         public BillingSystem()
         {
@@ -89,7 +80,7 @@ namespace BilllingMachine.UIForms
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open Calls TXT File";
             fDialog.Filter = "TXT Files|calls*.txt";
-            fDialog.InitialDirectory = (callsFilesPath.Equals(EMPTY_STRING)) ? Environment.CurrentDirectory : callsFilesPath;
+            fDialog.InitialDirectory = (callsFilesPath.Equals(Globals.EMPTY_STRING)) ? Environment.CurrentDirectory : callsFilesPath;
             // fDialog.InitialDirectory = @"C:\";
             fDialog.AddExtension = true;
             fDialog.CheckFileExists = true;
@@ -114,6 +105,7 @@ namespace BilllingMachine.UIForms
         {
             if (checkAllDataLoaded())
             {
+                ProcessData.ProcessRates();
                 this.tabCommon.SelectedTab = this.tabGeneral;
             }
             else
@@ -145,7 +137,7 @@ namespace BilllingMachine.UIForms
 
         private string getTotalCallsRows(string fileName)
         {
-            if (fileName.Equals(EMPTY_STRING))
+            if (fileName.Equals(Globals.EMPTY_STRING))
             {
                 return string.Format("{0}: {1}", "Total Records", this.gridCalls.RowCount);
             }

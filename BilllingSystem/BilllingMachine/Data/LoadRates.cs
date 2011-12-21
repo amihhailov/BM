@@ -5,6 +5,8 @@ using System.Text;
 using System.Data;
 using System.IO;
 
+using BilllingMachine.Models;
+
 namespace BilllingMachine.Data
 {
     public class LoadRates : ILoadData
@@ -14,7 +16,7 @@ namespace BilllingMachine.Data
 
         public DataSet LoadData(string fileName)
         {
-            const string LINE_FOLDING = "\r\n";
+            const string MOBIVLE_VALUE = "Mobile";
             const string DELIMETER_SYMBOL = ";";
             const string RATES_GRID_NAME = "gridRates";
 
@@ -33,14 +35,28 @@ namespace BilllingMachine.Data
                 dataset.Tables[RATES_GRID_NAME].Columns.Add("Price per minute / Fixed");
 
                 string allData = sReader.ReadToEnd();
-                string[] rows = allData.Split(LINE_FOLDING.ToCharArray());
+                string[] rows = allData.Split(Globals.LINE_FOLDING.ToCharArray());
 
                 foreach (string row in rows)
                 {
                     if (row.Length == 0) continue;
                     string[] columns = row.Split(DELIMETER_SYMBOL.ToCharArray());
-                    if (columns.Length != 3) throw new DataException("Invalid 'rates.csv' file format.");
+                    if (columns.Length != 3) 
+                        throw new DataException("Invalid 'rates.csv' file format.");
+
                     dataset.Tables[RATES_GRID_NAME].Rows.Add(columns);
+
+                    string direction = columns[0].ToString().Trim();
+                    string fPrice = columns[1].ToString().Trim();
+                    string mPrice = columns[2].ToString().Trim();
+
+                    FixedRates fRates = new FixedRates(direction, fPrice);
+                    Globals.DFixedRates.Add(fRates.Direction, fRates);
+
+                    MobileRates mRates = new MobileRates(string.Format("{0} {1}", direction, Globals.MOBILE_VALUE), mPrice);
+                    Globals.DMobileRates.Add(mRates.Direction, mRates);
+
+                    //Globals.LRates.Add(rates);
                 }
             }
             catch (DirectoryNotFoundException e)

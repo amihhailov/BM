@@ -3,10 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using BilllingMachine.Models;
+
 namespace BilllingMachine.Data
 {
     public static class Globals
     {
-        public const string INJIXO_COMMON_CONFIG_FILE_PATH = @"D:\Projects\InVisionTestSuite\Injixo\InjixoCommon\Configuration\config.cfg";
+        public const string EMPTY_STRING = "";
+        public const string WHITE_SPACE = " ";
+        public const string LINE_FOLDING = "\r\n";
+        public const string MOBILE_VALUE = "Mobile";
+
+        public static List<Country> LCountry = new List<Country>();
+        //public static List<Rates> LRates = new List<Rates>();
+
+        public static Dictionary<string, CountryRates> DCountryRates = new Dictionary<string, CountryRates>();
+        //public static Dictionary<string, Rates> DRates = new Dictionary<string, Rates>();
+        public static Dictionary<string, MobileRates> DMobileRates = new Dictionary<string, MobileRates>();
+        public static Dictionary<string, FixedRates> DFixedRates = new Dictionary<string, FixedRates>();
     }
 }

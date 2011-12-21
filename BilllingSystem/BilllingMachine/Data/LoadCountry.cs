@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.IO;
 
-using BilllingMachine.UIForms;
+using BilllingMachine.Data;
 using BilllingMachine.Models;
 
 namespace BilllingMachine.Data
@@ -17,11 +17,12 @@ namespace BilllingMachine.Data
         public DataSet LoadData(string fileName)
         {
             const int GRID_COLUMN_NUM = 3;
-
-            const string LINE_FOLDING = "\r\n";
+                        
             const string DELIMETER_SYMBOL = ",";
             const string COUNTRY_GRID_NAME = "gridCountry";
-                       
+            const string PERSONAL_VALUE = "Personal";
+            const string PREMIUM_VALUE = "Premium";
+
             StreamReader sReader = null;
             DataSet dataset = new DataSet();
 
@@ -37,7 +38,7 @@ namespace BilllingMachine.Data
                 dataset.Tables[COUNTRY_GRID_NAME].Columns.Add("Direction");
 
                 string allData = sReader.ReadToEnd();
-                string[] rows = allData.Split(LINE_FOLDING.ToCharArray());
+                string[] rows = allData.Split(Globals.LINE_FOLDING.ToCharArray());
 
                 foreach (string row in rows)
                 {
@@ -45,9 +46,17 @@ namespace BilllingMachine.Data
                     string[] columns = row.Split(DELIMETER_SYMBOL.ToCharArray());
                     if (columns.Length != GRID_COLUMN_NUM) 
                         throw new DataException("Invalid 'country.txt' file format.");
+
                     dataset.Tables[COUNTRY_GRID_NAME].Rows.Add(columns);
-                    Country country = new Country(columns[0].Trim(), columns[1].Trim(), columns[2].Trim());
-                    //DCountry. 
+
+                    string code = columns[0].ToString().Trim();
+                    string fullDirection = columns[1].ToString().Trim();
+                    string direction = columns[2].ToString().Trim();
+
+                    if ((fullDirection.Contains(PERSONAL_VALUE)) || (fullDirection.Contains(PREMIUM_VALUE))) continue;
+                    Country country = new Country(code, fullDirection, direction);
+                    Globals.LCountry.Add(country);
+                    //Globals.DCountry.Add(code, country);
                 }
             }
             catch (DirectoryNotFoundException e)
