@@ -5,7 +5,19 @@ using System.Text;
 
 namespace BilllingMachine.Models
 {
-    class Calls
+    public class Calls
     {
+        // Default constructor
+        public Calls() { }
+
+        public Calls(string phone, string duration) 
+        {
+            this.Phone = phone;
+            this.Duration = duration;
+        }
+
+        // Properties
+        public string Phone { get; set; }
+        public string Duration { get; set; }
     }
 }

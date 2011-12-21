@@ -17,7 +17,6 @@ namespace BilllingMachine.Data
         public DataSet LoadData(string fileName)
         {
             const int GRID_COLUMN_NUM = 3;
-                        
             const string DELIMETER_SYMBOL = ",";
             const string COUNTRY_GRID_NAME = "gridCountry";
             const string PERSONAL_VALUE = "Personal";
@@ -56,7 +55,6 @@ namespace BilllingMachine.Data
                     if ((fullDirection.Contains(PERSONAL_VALUE)) || (fullDirection.Contains(PREMIUM_VALUE))) continue;
                     Country country = new Country(code, fullDirection, direction);
                     Globals.LCountry.Add(country);
-                    //Globals.DCountry.Add(code, country);
                 }
             }
             catch (DirectoryNotFoundException e)

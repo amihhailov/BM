@@ -16,7 +16,7 @@ namespace BilllingMachine.Data
 
         public DataSet LoadData(string fileName)
         {
-            const string MOBIVLE_VALUE = "Mobile";
+            const int GRID_COLUMN_NUM = 3;
             const string DELIMETER_SYMBOL = ";";
             const string RATES_GRID_NAME = "gridRates";
 
@@ -41,7 +41,7 @@ namespace BilllingMachine.Data
                 {
                     if (row.Length == 0) continue;
                     string[] columns = row.Split(DELIMETER_SYMBOL.ToCharArray());
-                    if (columns.Length != 3) 
+                    if (columns.Length != GRID_COLUMN_NUM) 
                         throw new DataException("Invalid 'rates.csv' file format.");
 
                     dataset.Tables[RATES_GRID_NAME].Rows.Add(columns);
@@ -55,8 +55,6 @@ namespace BilllingMachine.Data
 
                     MobileRates mRates = new MobileRates(string.Format("{0} {1}", direction, Globals.MOBILE_VALUE), mPrice);
                     Globals.DMobileRates.Add(mRates.Direction, mRates);
-
-                    //Globals.LRates.Add(rates);
                 }
             }
             catch (DirectoryNotFoundException e)

@@ -5,6 +5,8 @@ using System.Text;
 using System.Data;
 using System.IO;
 
+using BilllingMachine.Models;
+
 namespace BilllingMachine.Data
 {
     public class LoadCalls : ILoadData
@@ -13,7 +15,7 @@ namespace BilllingMachine.Data
 
         public DataSet LoadData(string fileName)
         {
-            const string LINE_FOLDING = "\r\n";
+            const int GRID_COLUMN_NUM = 2;
             const string DELIMETER_SYMBOL = ",";
             const string CALLS_GRID_NAME = "gridCalls";
 
@@ -30,14 +32,22 @@ namespace BilllingMachine.Data
                 dataset.Tables[CALLS_GRID_NAME].Columns.Add("Call Duration (sec.)");
 
                 string allData = sReader.ReadToEnd();
-                string[] rows = allData.Split(LINE_FOLDING.ToCharArray());
+                string[] rows = allData.Split(Globals.LINE_FOLDING.ToCharArray());
 
                 foreach (string row in rows)
                 {
                     if (row.Length == 0) continue;
                     string[] columns = row.Split(DELIMETER_SYMBOL.ToCharArray());
-                    if (columns.Length != 2) throw new DataException("Invalid " + fileName + " file format.");
+                    if (columns.Length != GRID_COLUMN_NUM) 
+                        throw new DataException("Invalid " + fileName + " file format.");
+
                     dataset.Tables[CALLS_GRID_NAME].Rows.Add(columns);
+
+                    string phone = columns[0].ToString().Trim();
+                    string duration = columns[1].ToString().Trim();
+
+                    Calls call = new Calls(phone, duration);
+                    Globals.LCalls.Add(call);
                 }
             }
             catch (DirectoryNotFoundException e)

@@ -15,10 +15,9 @@ namespace BilllingMachine.Data
         public const string MOBILE_VALUE = "Mobile";
 
         public static List<Country> LCountry = new List<Country>();
-        //public static List<Rates> LRates = new List<Rates>();
+        public static List<Calls> LCalls = new List<Calls>();
 
         public static Dictionary<string, CountryRates> DCountryRates = new Dictionary<string, CountryRates>();
-        //public static Dictionary<string, Rates> DRates = new Dictionary<string, Rates>();
         public static Dictionary<string, MobileRates> DMobileRates = new Dictionary<string, MobileRates>();
         public static Dictionary<string, FixedRates> DFixedRates = new Dictionary<string, FixedRates>();
     }

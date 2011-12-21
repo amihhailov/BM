@@ -38,6 +38,41 @@ namespace BilllingMachine.Data
                     Globals.DCountryRates.Add(cr.Code, cr);
                 }
             }
+
+            Globals.LCountry.Clear();
+            Globals.DFixedRates.Clear();
+            Globals.DMobileRates.Clear();
+        }
+
+        private static void ProccessCalls()
+        {
+            int  pLength = 0;
+            string phone = Globals.EMPTY_STRING;
+
+            Dictionary<string, Calls> DPhone = new Dictionary<string,Calls>();
+
+            // Acquire keys and sort them.
+            var keysList = Globals.DCountryRates.Keys.ToList();
+
+            foreach (Calls call in Globals.LCalls)
+            {
+                // Loop through keys
+                foreach (var key in keysList)
+                {
+                    if (call.Phone.Equals(key))
+                    {
+                        //DPhone.Add(key, call);
+                    }
+                    else if (DPhone.ContainsKey(call.Phone))
+                    {
+
+                    }
+                    else if (call.Phone.StartsWith(key))
+                    {
+                        //phone = 
+                    }
+                }
+            }
         }
     }
 }
