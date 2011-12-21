@@ -16,5 +16,12 @@ namespace BilllingMachine.Models
         }
 
         public string Price { get; set; }
+
+        public string roundPrice(string price)
+        {
+            float fPrice = float.Parse(price) * 60;
+            //if ()
+            return "";
+        }
     }
 }
