@@ -19,9 +19,11 @@ namespace BilllingMachine.Models
 
         public string roundPrice(string price)
         {
-            float fPrice = float.Parse(price) * 60;
-            //if ()
-            return "";
+            // Convert price to float in seconds
+            float fPrice = float.Parse(price);
+            // Round using rule "60/30"
+            int roundedUp = (int) Math.Ceiling(fPrice); 
+            return (roundedUp * 30).ToString();
         }
     }
 }
