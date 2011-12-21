@@ -22,6 +22,8 @@ namespace BilllingMachine.Data
 
             StreamReader sReader = null;
             DataSet dataset = new DataSet();
+            Globals.DFixedRates = new Dictionary<string,FixedRates>();
+            Globals.DMobileRates = new Dictionary<string, MobileRates>();
 
             try
             {

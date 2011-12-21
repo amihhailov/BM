@@ -24,6 +24,7 @@ namespace BilllingMachine.Data
 
             StreamReader sReader = null;
             DataSet dataset = new DataSet();
+            Globals.LCountry = new List<Country>();
 
             try
             {

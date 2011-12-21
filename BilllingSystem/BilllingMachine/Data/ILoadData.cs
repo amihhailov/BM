@@ -6,6 +6,7 @@ using System.Data;
 
 namespace BilllingMachine.Data
 {
+    // Interface method declaration
     public interface ILoadData
     {
         DataSet LoadData(string fileName);

@@ -7,7 +7,7 @@ namespace BilllingMachine.Data
 {
     public abstract class Factory
     {
-        //Factory Method Declaration 
+        // Factory Method Declaration 
         public abstract ILoadData GetDataSource(); 
     }
 }

@@ -14,6 +14,8 @@ namespace BilllingMachine.UIForms
 {
     public partial class BillingSystem : Form
     {
+        const int ITERATIONS_NUM_VALUE = 100;
+
         const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
         const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
 
@@ -106,6 +108,10 @@ namespace BilllingMachine.UIForms
             if (checkAllDataLoaded())
             {
                 ProcessData.ProcessRates();
+                for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
+                {
+                    ProcessData.ProccessCalls();
+                }
                 this.tabCommon.SelectedTab = this.tabGeneral;
             }
             else

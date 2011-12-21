@@ -7,7 +7,7 @@ namespace BilllingMachine.Data
 {
     class FactoryRates : Factory
     {
-        //Factory Method Implementation 
+        // Factory Method Implementation 
         public override ILoadData GetDataSource()
         {
             return new LoadRates();

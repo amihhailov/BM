@@ -21,6 +21,7 @@ namespace BilllingMachine.Data
 
             StreamReader sReader = null;
             DataSet dataset = new DataSet();
+            Globals.LCalls = new List<Calls>();
 
             try
             {
@@ -28,8 +29,8 @@ namespace BilllingMachine.Data
                 dataset.Tables.Add(CALLS_GRID_NAME);
                 // The phone number
                 dataset.Tables[CALLS_GRID_NAME].Columns.Add("Phone Number");
-                // Call duration in seconds
-                dataset.Tables[CALLS_GRID_NAME].Columns.Add("Call Duration (sec.)");
+                // The call duration in seconds
+                dataset.Tables[CALLS_GRID_NAME].Columns.Add("Call Duration (seconds)");
 
                 string allData = sReader.ReadToEnd();
                 string[] rows = allData.Split(Globals.LINE_FOLDING.ToCharArray());

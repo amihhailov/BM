@@ -14,11 +14,12 @@ namespace BilllingMachine.Data
         public const string LINE_FOLDING = "\r\n";
         public const string MOBILE_VALUE = "Mobile";
 
-        public static List<Country> LCountry = new List<Country>();
-        public static List<Calls> LCalls = new List<Calls>();
+        public static List<Country> LCountry;
+        public static List<Calls> LCalls;
 
-        public static Dictionary<string, CountryRates> DCountryRates = new Dictionary<string, CountryRates>();
-        public static Dictionary<string, MobileRates> DMobileRates = new Dictionary<string, MobileRates>();
-        public static Dictionary<string, FixedRates> DFixedRates = new Dictionary<string, FixedRates>();
+        public static Dictionary<string, CountryRates> DCountryRates;
+        public static Dictionary<string, MobileRates> DMobileRates;
+        public static Dictionary<string, FixedRates> DFixedRates;
+        public static Dictionary<string, List<Calls>> DPhone;
     }
 }
