@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using BilllingMachine.Data;
 using BilllingMachine.Models;
+using System.Threading;
 
 namespace BilllingMachine.UIForms
 {
@@ -31,9 +32,6 @@ namespace BilllingMachine.UIForms
         {
             InitializeComponent();
             tabCommon.SelectedIndexChanged += new EventHandler(tabCommon_SelectedIndexchanged);
-
-
-
         }
 
         private void tabCommon_SelectedIndexchanged(object sender, EventArgs e)
@@ -45,11 +43,13 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = false;
                     btnCalls.Visible = false;
                     lblTotalRows.Visible = false;
+                    prgBar.Visible = true;
                     break;
                 case 1:
                     btnCountry.Visible = true;
                     btnRates.Visible = false;
                     btnCalls.Visible = false;
+                    prgBar.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = this.getTotalCounrtyRows();
                     break;
@@ -57,12 +57,14 @@ namespace BilllingMachine.UIForms
                     btnCountry.Visible = false;
                     btnRates.Visible = true;
                     btnCalls.Visible = false;
+                    prgBar.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = this.getTotalRatesRows();
                     break;
                 case 3:
                     btnCountry.Visible = false;
                     btnRates.Visible = false;
+                    prgBar.Visible = false;
                     btnCalls.Visible = true;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = this.getTotalCallsRows(callsFileName);
@@ -107,27 +109,34 @@ namespace BilllingMachine.UIForms
             this.lblTotalRows.Text = this.getTotalRatesRows();
         }
 
+        private void startProgressBar()
+        {
+            btnCalls.Visible = false;
+            btnCountry.Visible = false;
+            btnRates.Visible = false;
+            lblTotalRows.Visible = false;
+
+            prgBar.Maximum = ITERATIONS_NUM_VALUE;
+            prgBar.Minimum = 0;
+            //prgBar.Step = 2;
+            prgBar.Value = 0;
+            prgBar.Visible = true;
+        }
+
         private void btnRun_Click(object sender, EventArgs e)
         {
-            ProgressBarForm pForm = new ProgressBarForm();
-            //ProgressBar pBar = new ProgressBar();
-            //pForm.Load();
-            pForm.Show();
-
-   
-            //pBar.Value = 1;
-
             if (checkAllDataLoaded())
             {
+                this.tabCommon.SelectedTab = this.tabGeneral;
                 // Seach rates for directions
                 ProcessData.ProcessRates();
                 // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
-                for (int i = 0; i < ITERATIONS_NUM_VALUE; i++)
+                this.startProgressBar();
+                for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
                 {
+                    this.prgBar.Value = i;
                     ProcessData.ProccessCalls();
                 }
-                pForm.Close();
-                this.tabCommon.SelectedTab = this.tabGeneral;
             }
             else
             {
@@ -178,14 +187,7 @@ namespace BilllingMachine.UIForms
             gridsList.Add(this.gridRates);
             gridsList.Add(this.gridCalls);
 
-            //ProgressBarForm pForm = new ProgressBarForm();
-
-
-            //BillingSystemForm.FormBorderStyle = FormBorderStyle.FixedDialog;
-            //BillingSystemForm.MaximizeBox = false;
-            //BillingSystemForm.MinimizeBox = false;
-            //BillingSystemForm.StartPosition = FormStartPosition.CenterScreen;
-            //BillingSystemForm.ShowDialog();
+            //bgrWorker.RunWorkerAsync();
         }
     }
 }

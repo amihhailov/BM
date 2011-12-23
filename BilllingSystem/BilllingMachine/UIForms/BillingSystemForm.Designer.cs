@@ -38,6 +38,7 @@
             this.gridRates = new System.Windows.Forms.DataGridView();
             this.tabCalls = new System.Windows.Forms.TabPage();
             this.gridCalls = new System.Windows.Forms.DataGridView();
+            this.prgBar = new System.Windows.Forms.ProgressBar();
             this.lblTotalRows = new System.Windows.Forms.Label();
             this.btnCalls = new System.Windows.Forms.Button();
             this.btnRates = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
             this.btnCountry = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFileDialogCalls = new System.Windows.Forms.OpenFileDialog();
+            this.bgrWorker = new System.ComponentModel.BackgroundWorker();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -71,6 +73,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.prgBar);
             this.splitContainer1.Panel2.Controls.Add(this.lblTotalRows);
             this.splitContainer1.Panel2.Controls.Add(this.btnCalls);
             this.splitContainer1.Panel2.Controls.Add(this.btnRates);
@@ -193,6 +196,16 @@
             this.gridCalls.Size = new System.Drawing.Size(679, 412);
             this.gridCalls.TabIndex = 0;
             // 
+            // prgBar
+            // 
+            this.prgBar.Location = new System.Drawing.Point(10, 4);
+            this.prgBar.Maximum = 2;
+            this.prgBar.Name = "prgBar";
+            this.prgBar.Size = new System.Drawing.Size(428, 23);
+            this.prgBar.Step = 1;
+            this.prgBar.TabIndex = 6;
+            this.prgBar.Visible = false;
+            // 
             // lblTotalRows
             // 
             this.lblTotalRows.AutoSize = true;
@@ -310,6 +323,8 @@
         private System.Windows.Forms.Button btnCalls;
         private System.Windows.Forms.OpenFileDialog openFileDialogCalls;
         private System.Windows.Forms.Label lblTotalRows;
+        private System.Windows.Forms.ProgressBar prgBar;
+        private System.ComponentModel.BackgroundWorker bgrWorker;
 
 
 
