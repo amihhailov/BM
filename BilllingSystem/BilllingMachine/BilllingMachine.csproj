@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F61BD117-C936-401B-A522-4555086B9AD3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -52,7 +52,7 @@
     <Compile Include="Data\FactoryCalls.cs" />
     <Compile Include="Data\FactoryCountry.cs" />
     <Compile Include="Data\FactoryRates.cs" />
-    <Compile Include="Globals.cs" />
+    <Compile Include="Common\Globals.cs" />
     <Compile Include="Data\ProcessData.cs" />
     <Compile Include="Data\ILoadData.cs" />
     <Compile Include="Data\LoadCalls.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="UIForms\BillingSystemForm.Designer.cs">
       <DependentUpon>BillingSystemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Common\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UIForms\BillingSystemForm.resx">
       <DependentUpon>BillingSystemForm.cs</DependentUpon>
@@ -78,10 +78,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UIForms\ProgressBar.resx">
-      <DependentUpon>ProgressBar.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -97,12 +93,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="UIForms\ProgressBar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UIForms\ProgressBar.Designer.cs">
-      <DependentUpon>ProgressBar.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

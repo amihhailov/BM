@@ -15,7 +15,7 @@ namespace BilllingMachine.UIForms
 {
     public partial class BillingSystemForm : Form
     {
-        const int ITERATIONS_NUM_VALUE = 20;
+        const int ITERATIONS_NUM_VALUE = 100;
 
         const string ROOT_PROJECT_DIR = (@"..\\..\\Resources\\");
         const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
@@ -114,10 +114,21 @@ namespace BilllingMachine.UIForms
             btnCalls.Visible = false;
             btnCountry.Visible = false;
             btnRates.Visible = false;
+            btnRun.Visible = false;
+            btnCancel.Visible = true;
             lblTotalRows.Visible = false;
 
+            lblState.Text = "STATUS: In Progress...";
+            lblState.Update();
+
+            btnCancel.Update();
+            lblStatus.Update();
+            lblProccess.Update();
+            lblTime.Update();
+            
             prgBar.Maximum = ITERATIONS_NUM_VALUE;
             prgBar.Minimum = 0;
+            prgBar.Increment(1);
             //prgBar.Step = 2;
             prgBar.Value = 0;
             prgBar.Visible = true;
@@ -125,18 +136,33 @@ namespace BilllingMachine.UIForms
 
         private void btnRun_Click(object sender, EventArgs e)
         {
+            long calls_num = 0;
+            int prgoreesPersentage = 100 * prgBar.Step / ITERATIONS_NUM_VALUE;
+
             if (checkAllDataLoaded())
             {
                 this.tabCommon.SelectedTab = this.tabGeneral;
                 // Seach rates for directions
-                ProcessData.ProcessRates();
+               ProcessData.ProcessRates();
                 // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
                 this.startProgressBar();
                 for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
                 {
                     this.prgBar.Value = i;
-                    ProcessData.ProccessCalls();
+                    //Thread.Sleep(1000);
+                    calls_num = calls_num + ProcessData.ProccessCalls();
+                    this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
+                    this.lblStatus.Update();
+                    this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
+                    this.lblProccess.Update();
                 }
+                btnCancel.Visible = false;
+                btnCancel.Update();
+                btnRun.Visible = true;
+                btnRun.Update();
+                lblState.Text = "STATUS: Completed!";
+                lblState.Update();
+                MessageBox.Show("Calculation completed!");
             }
             else
             {
@@ -188,6 +214,11 @@ namespace BilllingMachine.UIForms
             gridsList.Add(this.gridCalls);
 
             //bgrWorker.RunWorkerAsync();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            //Application.Exit();
         }
     }
 }

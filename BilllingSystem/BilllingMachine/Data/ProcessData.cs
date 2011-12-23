@@ -45,8 +45,9 @@ namespace BilllingMachine.Data
             Console.WriteLine("<========== End of ProcessRates ==========>");
         }
 
-        public static void ProccessCalls()
+        public static long ProccessCalls()
         {
+            long callsNum = 0;
             int length = 0;
             string phone = Globals.EMPTY_STRING;
 
@@ -57,12 +58,14 @@ namespace BilllingMachine.Data
 
             foreach (Calls call in Globals.LCalls)
             {
+                callsNum++;
                 if (Globals.DPhone.ContainsKey(call.Phone))
                 {
                     List<Calls> ListCalls = Globals.DPhone[call.Phone];
                     ListCalls.Add(call);
                     Globals.DPhone.Remove(call.Phone);
                     Globals.DPhone.Add(call.Phone, ListCalls);
+                    //callsNum++;
                     continue;
                 }
 
@@ -86,9 +89,12 @@ namespace BilllingMachine.Data
                 
                 length = 0;
                 phone = Globals.EMPTY_STRING;
+                //callsNum++;
             }
 
             Console.WriteLine("<========== End of ProccessCalls ==========>");
+            return callsNum;
+            
         }
     }
 }

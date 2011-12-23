@@ -47,11 +47,17 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.openFileDialogCalls = new System.Windows.Forms.OpenFileDialog();
             this.bgrWorker = new System.ComponentModel.BackgroundWorker();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.lblProccess = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.lblState = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabCommon.SuspendLayout();
             this.tabGeneral.SuspendLayout();
+            this.panelGeneral.SuspendLayout();
             this.tabCountry.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCountry)).BeginInit();
             this.tabRates.SuspendLayout();
@@ -73,6 +79,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnCancel);
             this.splitContainer1.Panel2.Controls.Add(this.prgBar);
             this.splitContainer1.Panel2.Controls.Add(this.lblTotalRows);
             this.splitContainer1.Panel2.Controls.Add(this.btnCalls);
@@ -112,6 +119,10 @@
             // 
             this.panelGeneral.BackColor = System.Drawing.SystemColors.Control;
             this.panelGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelGeneral.Controls.Add(this.lblState);
+            this.panelGeneral.Controls.Add(this.lblTime);
+            this.panelGeneral.Controls.Add(this.lblProccess);
+            this.panelGeneral.Controls.Add(this.lblStatus);
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(3, 3);
             this.panelGeneral.Name = "panelGeneral";
@@ -201,7 +212,7 @@
             this.prgBar.Location = new System.Drawing.Point(10, 4);
             this.prgBar.Maximum = 2;
             this.prgBar.Name = "prgBar";
-            this.prgBar.Size = new System.Drawing.Size(428, 23);
+            this.prgBar.Size = new System.Drawing.Size(511, 22);
             this.prgBar.Step = 1;
             this.prgBar.TabIndex = 6;
             this.prgBar.Visible = false;
@@ -209,9 +220,10 @@
             // lblTotalRows
             // 
             this.lblTotalRows.AutoSize = true;
+            this.lblTotalRows.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalRows.Location = new System.Drawing.Point(104, 9);
             this.lblTotalRows.Name = "lblTotalRows";
-            this.lblTotalRows.Size = new System.Drawing.Size(77, 13);
+            this.lblTotalRows.Size = new System.Drawing.Size(91, 13);
             this.lblTotalRows.TabIndex = 5;
             this.lblTotalRows.Text = "Total Records:";
             this.lblTotalRows.Visible = false;
@@ -264,7 +276,7 @@
             // 
             this.btnClose.Location = new System.Drawing.Point(619, 3);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.Size = new System.Drawing.Size(75, 24);
             this.btnClose.TabIndex = 0;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -273,6 +285,58 @@
             // openFileDialogCalls
             // 
             this.openFileDialogCalls.FileName = "openFileDialog1";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(21, 26);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(134, 17);
+            this.lblStatus.TabIndex = 0;
+            this.lblStatus.Text = "COMPLETED: 0%";
+            // 
+            // lblProccess
+            // 
+            this.lblProccess.AutoSize = true;
+            this.lblProccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProccess.Location = new System.Drawing.Point(21, 52);
+            this.lblProccess.Name = "lblProccess";
+            this.lblProccess.Size = new System.Drawing.Size(184, 17);
+            this.lblProccess.TabIndex = 1;
+            this.lblProccess.Text = "PROCCESSED CALLS: 0";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(534, 3);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 24);
+            this.btnCancel.TabIndex = 7;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.Location = new System.Drawing.Point(20, 81);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(244, 17);
+            this.lblTime.TabIndex = 2;
+            this.lblTime.Text = "TOTAL PRCCESS TIME IS: 0 ms.";
+            // 
+            // lblState
+            // 
+            this.lblState.AutoSize = true;
+            this.lblState.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblState.Location = new System.Drawing.Point(21, 109);
+            this.lblState.Name = "lblState";
+            this.lblState.Size = new System.Drawing.Size(161, 17);
+            this.lblState.TabIndex = 3;
+            this.lblState.Text = "STATUS: Incomplete!";
             // 
             // BillingSystemForm
             // 
@@ -294,6 +358,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabCommon.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
+            this.panelGeneral.ResumeLayout(false);
+            this.panelGeneral.PerformLayout();
             this.tabCountry.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCountry)).EndInit();
             this.tabRates.ResumeLayout(false);
@@ -325,6 +391,11 @@
         private System.Windows.Forms.Label lblTotalRows;
         private System.Windows.Forms.ProgressBar prgBar;
         private System.ComponentModel.BackgroundWorker bgrWorker;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblProccess;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Label lblState;
 
 
 
