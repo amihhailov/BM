@@ -42,7 +42,7 @@ namespace BilllingMachine.Data
                 }
             }
 
-            Console.WriteLine("<----- End of ProcessRates ----->");
+            Console.WriteLine("<========== End of ProcessRates ==========>");
         }
 
         public static void ProccessCalls()
@@ -88,7 +88,7 @@ namespace BilllingMachine.Data
                 phone = Globals.EMPTY_STRING;
             }
 
-            Console.WriteLine("<----- End of ProccessCalls ----->");
+            Console.WriteLine("<========== End of ProccessCalls ==========>");
         }
     }
 }

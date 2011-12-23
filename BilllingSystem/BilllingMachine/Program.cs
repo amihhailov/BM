@@ -15,7 +15,7 @@ namespace BilllingMachine.UIForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BillingSystem());
+            Application.Run(new BillingSystemForm());
         }
     }
 }

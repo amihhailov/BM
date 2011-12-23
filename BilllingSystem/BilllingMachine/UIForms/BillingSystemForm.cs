@@ -12,10 +12,11 @@ using BilllingMachine.Models;
 
 namespace BilllingMachine.UIForms
 {
-    public partial class BillingSystem : Form
+    public partial class BillingSystemForm : Form
     {
-        const int ITERATIONS_NUM_VALUE = 100;
+        const int ITERATIONS_NUM_VALUE = 20;
 
+        const string ROOT_PROJECT_DIR = (@"..\\..\\Resources\\");
         const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
         const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
 
@@ -26,10 +27,13 @@ namespace BilllingMachine.UIForms
         private string callsFileName = Globals.EMPTY_STRING;
         private string callsFilesPath = Globals.EMPTY_STRING;
 
-        public BillingSystem()
+        public BillingSystemForm()
         {
             InitializeComponent();
             tabCommon.SelectedIndexChanged += new EventHandler(tabCommon_SelectedIndexchanged);
+
+
+
         }
 
         private void tabCommon_SelectedIndexchanged(object sender, EventArgs e)
@@ -82,7 +86,7 @@ namespace BilllingMachine.UIForms
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open Calls TXT File";
             fDialog.Filter = "TXT Files|calls*.txt";
-            fDialog.InitialDirectory = (callsFilesPath.Equals(Globals.EMPTY_STRING)) ? Environment.CurrentDirectory : callsFilesPath;
+            fDialog.InitialDirectory = (callsFilesPath.Equals(Globals.EMPTY_STRING)) ? ROOT_PROJECT_DIR : callsFilesPath;
             // fDialog.InitialDirectory = @"C:\";
             fDialog.AddExtension = true;
             fDialog.CheckFileExists = true;
@@ -105,13 +109,24 @@ namespace BilllingMachine.UIForms
 
         private void btnRun_Click(object sender, EventArgs e)
         {
+            ProgressBarForm pForm = new ProgressBarForm();
+            //ProgressBar pBar = new ProgressBar();
+            //pForm.Load();
+            pForm.Show();
+
+   
+            //pBar.Value = 1;
+
             if (checkAllDataLoaded())
             {
+                // Seach rates for directions
                 ProcessData.ProcessRates();
-                for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
+                // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
+                for (int i = 0; i < ITERATIONS_NUM_VALUE; i++)
                 {
                     ProcessData.ProccessCalls();
                 }
+                pForm.Close();
                 this.tabCommon.SelectedTab = this.tabGeneral;
             }
             else
@@ -162,6 +177,15 @@ namespace BilllingMachine.UIForms
             gridsList.Add(this.gridCountry);
             gridsList.Add(this.gridRates);
             gridsList.Add(this.gridCalls);
+
+            //ProgressBarForm pForm = new ProgressBarForm();
+
+
+            //BillingSystemForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+            //BillingSystemForm.MaximizeBox = false;
+            //BillingSystemForm.MinimizeBox = false;
+            //BillingSystemForm.StartPosition = FormStartPosition.CenterScreen;
+            //BillingSystemForm.ShowDialog();
         }
     }
 }

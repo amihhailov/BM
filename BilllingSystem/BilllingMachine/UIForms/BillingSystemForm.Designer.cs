@@ -1,6 +1,6 @@
 ﻿namespace BilllingMachine.UIForms
 {
-    partial class BillingSystem
+    partial class BillingSystemForm
     {
         /// <summary>
         /// Required designer variable.
@@ -108,6 +108,7 @@
             // panelGeneral
             // 
             this.panelGeneral.BackColor = System.Drawing.SystemColors.Control;
+            this.panelGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(3, 3);
             this.panelGeneral.Name = "panelGeneral";
@@ -260,14 +261,18 @@
             // 
             this.openFileDialogCalls.FileName = "openFileDialog1";
             // 
-            // BillingSystem
+            // BillingSystemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(700, 493);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "BillingSystem";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(706, 521);
+            this.Name = "BillingSystemForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BillingSystem";
             this.Load += new System.EventHandler(this.BillingSystem_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
