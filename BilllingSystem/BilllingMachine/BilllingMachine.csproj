@@ -70,7 +70,7 @@
     <Compile Include="UIForms\BillingSystemForm.Designer.cs">
       <DependentUpon>BillingSystemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UIForms\BillingSystemForm.resx">
       <DependentUpon>BillingSystemForm.cs</DependentUpon>

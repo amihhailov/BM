@@ -28,10 +28,18 @@ namespace BilllingMachine.UIForms
         private string callsFileName = Globals.EMPTY_STRING;
         private string callsFilesPath = Globals.EMPTY_STRING;
 
+        private BackgroundWorker bw = new BackgroundWorker();
+
         public BillingSystemForm()
         {
             InitializeComponent();
             tabCommon.SelectedIndexChanged += new EventHandler(tabCommon_SelectedIndexchanged);
+
+            bw.WorkerReportsProgress = true;
+            bw.WorkerSupportsCancellation = true;
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
         }
 
         private void tabCommon_SelectedIndexchanged(object sender, EventArgs e)
@@ -126,48 +134,11 @@ namespace BilllingMachine.UIForms
             lblProccess.Update();
             lblTime.Update();
             
-            prgBar.Maximum = ITERATIONS_NUM_VALUE;
-            prgBar.Minimum = 0;
-            prgBar.Increment(1);
-            //prgBar.Step = 2;
-            prgBar.Value = 0;
+            //prgBar.Maximum = ITERATIONS_NUM_VALUE;
+            //prgBar.Minimum = 0;
+            //prgBar.Increment(1);
+            //prgBar.Value = 0;
             prgBar.Visible = true;
-        }
-
-        private void btnRun_Click(object sender, EventArgs e)
-        {
-            long calls_num = 0;
-            int prgoreesPersentage = 100 * prgBar.Step / ITERATIONS_NUM_VALUE;
-
-            if (checkAllDataLoaded())
-            {
-                this.tabCommon.SelectedTab = this.tabGeneral;
-                // Seach rates for directions
-               ProcessData.ProcessRates();
-                // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
-                this.startProgressBar();
-                for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
-                {
-                    this.prgBar.Value = i;
-                    //Thread.Sleep(1000);
-                    calls_num = calls_num + ProcessData.ProccessCalls();
-                    this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
-                    this.lblStatus.Update();
-                    this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
-                    this.lblProccess.Update();
-                }
-                btnCancel.Visible = false;
-                btnCancel.Update();
-                btnRun.Visible = true;
-                btnRun.Update();
-                lblState.Text = "STATUS: Completed!";
-                lblState.Update();
-                MessageBox.Show("Calculation completed!");
-            }
-            else
-            {
-                MessageBox.Show("Check that all data in tabs were successfully loaded!");
-            }
         }
 
         private bool checkAllDataLoaded()
@@ -216,9 +187,117 @@ namespace BilllingMachine.UIForms
             //bgrWorker.RunWorkerAsync();
         }
 
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            for (int i = 1; (i <= 100); i++)
+            {
+                if ((worker.CancellationPending == true))
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    // Perform a time consuming operation and report progress.
+                    Thread.Sleep(100);
+                    worker.ReportProgress(Convert.ToInt32(i));
+                    //this.prgBar.Value = i;
+                }
+            }
+
+            if (worker.CancellationPending)
+            {
+                Thread.Sleep(1200);
+                e.Cancel = true;
+                return;
+            }
+            worker.ReportProgress(100);
+
+            //this.tabCommon.SelectedTab = this.tabGeneral;
+            //// Seach rates for directions
+            //ProcessData.ProcessRates();
+            //// Proccess calls' list (here 100 iterations for one selected 'call.txt' file
+            //this.startProgressBar();
+            //for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
+            //{
+            //    this.prgBar.Value = i;
+            //    calls_num = calls_num + ProcessData.ProccessCalls();
+            //    this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
+            //    this.lblStatus.Update();
+            //    this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
+            //    this.lblProccess.Update();
+            //}
+            //btnCancel.Visible = false;
+            //btnCancel.Update();
+            //btnRun.Visible = true;
+            //btnRun.Update();
+            //lblState.Text = "STATUS: Completed!";
+            //lblState.Update();
+            //MessageBox.Show("Calculation completed!");
+        }
+
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //worker.Text = "Start Long Running Asynchronous Process";
+            //worker.Enabled = true;
+
+            if ((e.Cancelled == true))
+            {
+                //this.prgBar.Text = "Canceled!";
+                lblStatus.Text = "STATUS: Cancelled...";
+                btnCancel.Visible = false;
+                btnRun.Visible = true;
+            }
+
+            else if (!(e.Error == null))
+            {
+                //this.prgBar.Text = ("Error: " + e.Error.Message);
+                MessageBox.Show(e.Error.Message);
+                return;
+            }
+            else
+            {
+                //this.prgBar.Text = "Done!";
+                this.lblStatus.Text = "STATUS: Completed...";
+                this.btnCancel.Visible = false;
+                this.btnRun.Visible = true;
+            }
+        }
+
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //this.prgBar.Text = (e.ProgressPercentage.ToString() + "%");
+            this.prgBar.Value = e.ProgressPercentage;
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            //Application.Exit();
+            if (bw.WorkerSupportsCancellation == true)
+            {
+                bw.CancelAsync();
+            }
         }
+
+        private void btnRun_Click(object sender, EventArgs e)
+        {
+            if (bw.IsBusy)
+            {
+                btnRun.Enabled = false;
+                lblStatus.Text = "Canceling...";
+                bw.CancelAsync();
+            }
+            else
+            {
+                this.tabCommon.SelectedTab = this.tabGeneral;
+                //this.startProgressBar();
+                btnRun.Text = "Cancel";
+                lblStatus.Text = "Running...";
+                bw.RunWorkerAsync();
+            }
+        }
+
+
     }
 }
