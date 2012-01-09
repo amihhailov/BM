@@ -141,46 +141,55 @@ namespace BilllingMachine.UIForms
         //}
 
         #region Synchronous BackgroundWorker Thread
+
         private void btnRun_Click(object sender, EventArgs e)
         {
-            // Create a background thread
+            if (checkAllDataLoaded())
+            {
+                // Create a background thread
+                BackgroundWorker bw = new BackgroundWorker();
+                bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
 
-            BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler
-                            (bw_RunWorkerCompleted);
+                // Create a progress form on the UI thread
+                frmProgress = new ProgressBarForm();
 
-            // Create a progress form on the UI thread
-            frmProgress = new ProgressBarForm();
+                // Kick off the Async thread
+                bw.RunWorkerAsync();
 
-            // Kick off the Async thread
-            bw.RunWorkerAsync();
-
-            // Lock up the UI with this modal progress form.
-            tabCommon.SelectedTab = tabGeneral;
-            frmProgress.ShowDialog(this);
-            frmProgress = null;
+                // Lock up the UI with this modal progress form.
+                tabCommon.SelectedTab = tabGeneral;
+                frmProgress.ShowDialog(this);
+                frmProgress = null;
+            }
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Do some long running task...
+            long calls_num = 0;
+            int prgoreesPersentage = 100 * frmProgress.progressBar.Step / ITERATIONS_NUM_VALUE;
+
             stopWatch = new Stopwatch();
+            
+            // Seach rates for directions
+            ProcessData.ProcessRates();
+
+            // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
             stopWatch.Start();
-
-            //int iCount = new Random().Next(20, 50);
-            int iCount = 100;
-            for (int i = 0; i < iCount; i++)
+            for (int i = 0; i < ITERATIONS_NUM_VALUE; i++)
             {
-                // The Work to be performed...
-
                 Thread.Sleep(100);
-
                 frmProgress.progressBar.Invoke((MethodInvoker)delegate()
                 {
-                    lblProccess.Text =
+                    //calls_num = calls_num + ProcessData.ProccessCalls();
+                    //this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
+                    //this.lblStatus.Update();
+                    //this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
+
+
+                    this.lblProccess.Text =
                     "Processing file " + i.ToString() +
-                    " of " + iCount.ToString();
+                    " of " + ITERATIONS_NUM_VALUE.ToString();
                     frmProgress.progressBar.Value = 
                         //Convert.ToInt32(i * (100.0 / iCount));
                     i;
@@ -227,10 +236,8 @@ namespace BilllingMachine.UIForms
         private string getTimeSpan()
         {
             TimeSpan ts = stopWatch.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-            ts.Hours, ts.Minutes, ts.Seconds,
-            ts.Milliseconds / 10);
-            Console.WriteLine("RunTime :" + elapsedTime);
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", 
+            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
 
             return elapsedTime;
         }
