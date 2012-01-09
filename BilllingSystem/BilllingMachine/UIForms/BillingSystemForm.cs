@@ -6,10 +6,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
+using System.Diagnostics;
 
 using BilllingMachine.Data;
 using BilllingMachine.Models;
-using System.Threading;
+
 
 namespace BilllingMachine.UIForms
 {
@@ -28,8 +30,8 @@ namespace BilllingMachine.UIForms
         private string callsFileName = Globals.EMPTY_STRING;
         private string callsFilesPath = Globals.EMPTY_STRING;
 
-
-        private ProgressBarForm m_fmProgress = null;
+        private ProgressBarForm frmProgress = null;
+        private Stopwatch stopWatch = null;
 
 
         public BillingSystemForm()
@@ -149,23 +151,22 @@ namespace BilllingMachine.UIForms
                             (bw_RunWorkerCompleted);
 
             // Create a progress form on the UI thread
-
-            m_fmProgress = new ProgressBarForm();
+            frmProgress = new ProgressBarForm();
 
             // Kick off the Async thread
-
             bw.RunWorkerAsync();
 
             // Lock up the UI with this modal progress form.
-
             tabCommon.SelectedTab = tabGeneral;
-            m_fmProgress.ShowDialog(this);
-            m_fmProgress = null;
+            frmProgress.ShowDialog(this);
+            frmProgress = null;
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             // Do some long running task...
+            stopWatch = new Stopwatch();
+            stopWatch.Start();
 
             //int iCount = new Random().Next(20, 50);
             int iCount = 100;
@@ -175,22 +176,20 @@ namespace BilllingMachine.UIForms
 
                 Thread.Sleep(100);
 
-                m_fmProgress.progressBar.Invoke((MethodInvoker)delegate()
+                frmProgress.progressBar.Invoke((MethodInvoker)delegate()
                 {
                     lblProccess.Text =
                     "Processing file " + i.ToString() +
                     " of " + iCount.ToString();
-                    m_fmProgress.progressBar.Value =
+                    frmProgress.progressBar.Value = 
                         //Convert.ToInt32(i * (100.0 / iCount));
                     i;
                 });
 
-                if (m_fmProgress.CanceledProccess)
+                if (frmProgress.CanceledProccess)
                 {
                     // Set the e.Cancel flag so that the WorkerCompleted event
-
                     // knows that the process was cancelled.
-
                     e.Cancel = true;
                     return;
                 }
@@ -199,10 +198,10 @@ namespace BilllingMachine.UIForms
 
         private void bw_RunWorkerCompleted (object sender, RunWorkerCompletedEventArgs e)
         {
-            if (m_fmProgress != null)
+            if (frmProgress != null)
             {
-                m_fmProgress.Hide();
-                m_fmProgress = null;
+                frmProgress.Hide();
+                frmProgress = null;
             }
 
             if (e.Error != null)
@@ -212,18 +211,29 @@ namespace BilllingMachine.UIForms
             }
 
             // Check to see if the background process was cancelled.
-
             if (e.Cancelled)
             {
-                MessageBox.Show("Processing cancelled.");
+                stopWatch.Stop();
+                MessageBox.Show("Processing cancelled. Time span is: " + getTimeSpan());
                 return;
             }
 
             // Everything completed normally.
-
-            MessageBox.Show("Processing is complete.");
+            stopWatch.Stop();
+            MessageBox.Show("Processing is complete. Time span is: " + getTimeSpan());
         }
         #endregion
+
+        private string getTimeSpan()
+        {
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+            Console.WriteLine("RunTime :" + elapsedTime);
+
+            return elapsedTime;
+        }
 
         private bool checkAllDataLoaded()
         {
