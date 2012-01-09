@@ -162,6 +162,10 @@ namespace BilllingMachine.UIForms
                 frmProgress.ShowDialog(this);
                 frmProgress = null;
             }
+            else
+            {
+                MessageBox.Show("Check that all data in tabs were successfully loaded!");
+            }
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -181,18 +185,12 @@ namespace BilllingMachine.UIForms
                 Thread.Sleep(100);
                 frmProgress.progressBar.Invoke((MethodInvoker)delegate()
                 {
-                    //calls_num = calls_num + ProcessData.ProccessCalls();
-                    //this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
+                    frmProgress.progressBar.Value = i;
+                    calls_num = calls_num + ProcessData.ProccessCalls();
+                    this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
                     //this.lblStatus.Update();
-                    //this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
-
-
-                    this.lblProccess.Text =
-                    "Processing file " + i.ToString() +
-                    " of " + ITERATIONS_NUM_VALUE.ToString();
-                    frmProgress.progressBar.Value = 
-                        //Convert.ToInt32(i * (100.0 / iCount));
-                    i;
+                    this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
+                    this.lblTime.Text = string.Format("{0}: {1} {2}", "TOTAL PROCCESS TIME IS", getTimeSpan(), "ms.");
                 });
 
                 if (frmProgress.CanceledProccess)
@@ -223,21 +221,24 @@ namespace BilllingMachine.UIForms
             if (e.Cancelled)
             {
                 stopWatch.Stop();
-                MessageBox.Show("Processing cancelled. Time span is: " + getTimeSpan());
+                MessageBox.Show("Processing cancelled.");
                 return;
             }
 
             // Everything completed normally.
             stopWatch.Stop();
-            MessageBox.Show("Processing is complete. Time span is: " + getTimeSpan());
+            MessageBox.Show("Processing is complete.");
         }
         #endregion
 
         private string getTimeSpan()
         {
             TimeSpan ts = stopWatch.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", 
-            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            string elapsedTime = String.Format
+            (
+                "{0:00}:{1:00}:{2:00}.{3:00}", 
+                ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10
+            );
 
             return elapsedTime;
         }
@@ -255,23 +256,39 @@ namespace BilllingMachine.UIForms
 
         private string getTotalCounrtyRows()
         {
-            return string.Format("{0}: {1}", "Total Records", this.gridCountry.RowCount);
+            return string.Format
+            (
+                "{0}: {1}", 
+                "Total Records", this.gridCountry.RowCount
+            );
         }
 
         private string getTotalRatesRows()
         {
-            return string.Format("{0}: {1}", "Total Records", this.gridRates.RowCount);
+            return string.Format
+            (
+                "{0}: {1}", 
+                "Total Records", this.gridRates.RowCount
+            );
         }
 
         private string getTotalCallsRows(string fileName)
         {
             if (fileName.Equals(Globals.EMPTY_STRING))
             {
-                return string.Format("{0}: {1}", "Total Records", this.gridCalls.RowCount);
+                return string.Format
+                (
+                    "{0}: {1}", 
+                    "Total Records", this.gridCalls.RowCount
+                );
             }
             else
             {
-                return string.Format("{0} '{1}': {2}", "Total Records in", fileName, this.gridCalls.RowCount);
+                return string.Format
+                (
+                    "{0} '{1}': {2}", 
+                    "Total Records in", fileName, this.gridCalls.RowCount
+                );
             }
         }
 
@@ -284,13 +301,6 @@ namespace BilllingMachine.UIForms
             gridsList.Add(this.gridCountry);
             gridsList.Add(this.gridRates);
             gridsList.Add(this.gridCalls);
-
-            //bgrWorker.RunWorkerAsync();
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            //m_fmProgress.CanceledProccess = true;
         }
     }
 }
