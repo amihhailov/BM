@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.IO;
 
+using BilllingMachine.Common;
 using BilllingMachine.Models;
 
 namespace BilllingMachine.Data
@@ -13,7 +14,6 @@ namespace BilllingMachine.Data
     {
         public static void ProcessRates()
         {
-
             Globals.DCountryRates = new Dictionary<string, CountryRates>();
 
             foreach (Country country in Globals.LCountry)
@@ -41,60 +41,88 @@ namespace BilllingMachine.Data
                     Globals.DCountryRates.Add(cr.Code, cr);
                 }
             }
-
-            Console.WriteLine("<========== End of ProcessRates ==========>");
         }
 
         public static long ProccessCalls()
         {
             long callsNum = 0;
-            int length = 0;
             string phone = Globals.EMPTY_STRING;
 
-            Globals.DPhone = new Dictionary<string, List<Calls>>();   
+            Dictionary<string, CountryRates> DPhone = new Dictionary<string, CountryRates>(); 
 
-            // Acquire keys and sort them.
-            var keysList = Globals.DCountryRates.Keys.ToList();    
+            // Acquire keys, sort and reverse them.
+            var keysList = Globals.DCountryRates.Keys.ToList();
+            keysList.Sort(); keysList.Reverse();
 
-            foreach (Calls call in Globals.LCalls)
+            using (FileStream fs = new FileStream(Globals.OUTUPUT_FILE_NAME, FileMode.CreateNew))
             {
-                callsNum++;
-                if (Globals.DPhone.ContainsKey(call.Phone))
+                // Create the writer for data.
+                using (TextWriter tw = new StreamWriter(fs))
                 {
-                    List<Calls> ListCalls = Globals.DPhone[call.Phone];
-                    ListCalls.Add(call);
-                    Globals.DPhone.Remove(call.Phone);
-                    Globals.DPhone.Add(call.Phone, ListCalls);
-                    //callsNum++;
-                    continue;
-                }
-
-                // Loop through keys
-                foreach (var key in keysList)
-                {
-                    if (call.Phone.Equals(key)) break;
-                    if (call.Phone.StartsWith(key))
+                    foreach (Calls call in Globals.LCalls)
                     {
-                        if (key.Length > length)
+                        callsNum++;
+                        if (DPhone.ContainsKey(call.Phone))
                         {
-                            phone = key;
-                            length = key.Length;
+                            //List<Calls> ListCalls = Globals.DPhone[call.Phone];
+                            //ListCalls.Add(call);
+                            //Globals.DPhone.Remove(call.Phone);
+                            //Globals.DPhone.Add(call.Phone, ListCalls);
+                            tw.WriteLine
+                            (
+                                string.Format
+                                (
+                                    "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
+                                    call.Phone, 
+                                    DPhone[call.Phone].Code,
+                                    DPhone[call.Phone].FullDirection,
+                                    DPhone[call.Phone].Direction,
+                                    call.Duration,
+                                    call.Duration,
+                                    DPhone[call.Phone].Price,
+                                    DPhone[call.Phone].Direction
+                                )
+                            );
+                            continue;
                         }
-                    }
-                }
 
-                List<Calls> LCalls = new List<Calls>();
-                LCalls.Add(call);
-                Globals.DPhone.Add(call.Phone, LCalls);
-                
-                length = 0;
-                phone = Globals.EMPTY_STRING;
-                //callsNum++;
+                        // Loop through keys
+                        foreach (var key in keysList)
+                        {
+                            if ((call.Phone.Equals(key)) || (call.Phone.StartsWith(key)))
+                            {
+                                phone = key;
+                                break;
+                            }
+                        }
+
+                        //List<Calls> LCalls = new List<Calls>();
+                        //LCalls.Add(call);
+                        //Globals.DPhone.Add(call.Phone, LCalls);
+                        DPhone.Add(call.Phone, Globals.DCountryRates[phone]);
+                        tw.WriteLine
+                        (
+                            string.Format
+                            (
+                                "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
+                                call.Phone,
+                                DPhone[call.Phone].Code,
+                                DPhone[call.Phone].FullDirection,
+                                DPhone[call.Phone].Direction,
+                                call.Duration,
+                                call.Duration,
+                                DPhone[call.Phone].Price,
+                                DPhone[call.Phone].Direction
+                            )
+                        );
+                        phone = Globals.EMPTY_STRING;
+                    }
+                    // close the stream
+                    tw.Close();
+                }
             }
 
-            Console.WriteLine("<========== End of ProccessCalls ==========>");
             return callsNum;
-            
         }
     }
 }

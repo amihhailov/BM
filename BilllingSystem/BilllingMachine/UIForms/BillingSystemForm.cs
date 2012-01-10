@@ -11,6 +11,7 @@ using System.Diagnostics;
 
 using BilllingMachine.Data;
 using BilllingMachine.Models;
+using BilllingMachine.Common;
 
 
 namespace BilllingMachine.UIForms
@@ -19,9 +20,9 @@ namespace BilllingMachine.UIForms
     {
         const int ITERATIONS_NUM_VALUE = 100;
 
-        const string ROOT_PROJECT_DIR = (@"..\\..\\Resources\\");
-        const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
-        const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
+        //const string ROOT_PROJECT_DIR = (@"..\\..\\Resources\\");
+        //const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
+        //const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
 
         private List<DataGridView> gridsList = new List<DataGridView>();
 
@@ -85,7 +86,7 @@ namespace BilllingMachine.UIForms
 
         private void btnCountry_Click(object sender, EventArgs e)
         {
-            this.gridCountry.DataSource = Factories[0].GetDataSource().LoadData(COUNTRY_FILE_NAME).Tables[0].DefaultView;
+            this.gridCountry.DataSource = Factories[0].GetDataSource().LoadData(Globals.COUNTRY_FILE_NAME).Tables[0].DefaultView;
             this.lblTotalRows.Text = this.getTotalCounrtyRows();
         }
 
@@ -94,7 +95,7 @@ namespace BilllingMachine.UIForms
             OpenFileDialog fDialog = new OpenFileDialog();
             fDialog.Title = "Open Calls TXT File";
             fDialog.Filter = "TXT Files|calls*.txt";
-            fDialog.InitialDirectory = (callsFilesPath.Equals(Globals.EMPTY_STRING)) ? ROOT_PROJECT_DIR : callsFilesPath;
+            fDialog.InitialDirectory = (callsFilesPath.Equals(Globals.EMPTY_STRING)) ? Globals.ROOT_PROJECT_DIR : callsFilesPath;
             // fDialog.InitialDirectory = @"C:\";
             fDialog.AddExtension = true;
             fDialog.CheckFileExists = true;
@@ -111,34 +112,9 @@ namespace BilllingMachine.UIForms
 
         private void btnRates_Click(object sender, EventArgs e)
         {
-            this.gridRates.DataSource = Factories[1].GetDataSource().LoadData(RATES_FILE_NAME).Tables[0].DefaultView;
+            this.gridRates.DataSource = Factories[1].GetDataSource().LoadData(Globals.RATES_FILE_NAME).Tables[0].DefaultView;
             this.lblTotalRows.Text = this.getTotalRatesRows();
         }
-
-        //private void startProgressBar()
-        //{
-        //    btnCalls.Visible = false;
-        //    btnCountry.Visible = false;
-        //    btnRates.Visible = false;
-        //    btnRun.Visible = false;
-        //    //btnCancel.Visible = true;
-        //    lblTotalRows.Visible = false;
-
-        //    lblState.Text = "STATUS: In Progress...";
-        //    lblState.Update();
-
-        //    //btnCancel.Update();
-        //    lblStatus.Update();
-        //    lblProccess.Update();
-        //    lblTime.Update();
-            
-        //    //prgBar.Maximum = ITERATIONS_NUM_VALUE;
-        //    //prgBar.Minimum = 0;
-        //    //prgBar.Increment(1);
-        //    //prgBar.Step = 2;
-        //    //prgBar.Value = 0;
-        //    //prgBar.Visible = true;
-        //}
 
         #region Synchronous BackgroundWorker Thread
 
@@ -180,17 +156,20 @@ namespace BilllingMachine.UIForms
 
             // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
             stopWatch.Start();
-            for (int i = 0; i < ITERATIONS_NUM_VALUE; i++)
+            for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
             {
                 Thread.Sleep(100);
+
+                WriteResults.RemoveOutputFile(Globals.OUTUPUT_FILE_NAME);
+                
                 frmProgress.progressBar.Invoke((MethodInvoker)delegate()
                 {
+                    this.lblState.Text = "STATUS: PROCCESSING...";
                     frmProgress.progressBar.Value = i;
                     calls_num = calls_num + ProcessData.ProccessCalls();
                     this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
-                    //this.lblStatus.Update();
                     this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
-                    this.lblTime.Text = string.Format("{0}: {1} {2}", "TOTAL PROCCESS TIME IS", getTimeSpan(), "ms.");
+                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", getTimeSpan(), "ms.");
                 });
 
                 if (frmProgress.CanceledProccess)
@@ -203,7 +182,7 @@ namespace BilllingMachine.UIForms
             }
         }
 
-        private void bw_RunWorkerCompleted (object sender, RunWorkerCompletedEventArgs e)
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (frmProgress != null)
             {
@@ -221,12 +200,14 @@ namespace BilllingMachine.UIForms
             if (e.Cancelled)
             {
                 stopWatch.Stop();
+                lblState.Text = "STATUS: Canceled!";
                 MessageBox.Show("Processing cancelled.");
                 return;
             }
 
             // Everything completed normally.
             stopWatch.Stop();
+            lblState.Text = "STATUS: Completed!";
             MessageBox.Show("Processing is complete.");
         }
         #endregion
@@ -237,7 +218,10 @@ namespace BilllingMachine.UIForms
             string elapsedTime = String.Format
             (
                 "{0:00}:{1:00}:{2:00}.{3:00}", 
-                ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10
+                ts.Hours, 
+                ts.Minutes, 
+                ts.Seconds, 
+                ts.Milliseconds / 10
             );
 
             return elapsedTime;
@@ -258,8 +242,7 @@ namespace BilllingMachine.UIForms
         {
             return string.Format
             (
-                "{0}: {1}", 
-                "Total Records", this.gridCountry.RowCount
+                "{0}: {1}", "Total Records", this.gridCountry.RowCount
             );
         }
 
@@ -267,8 +250,7 @@ namespace BilllingMachine.UIForms
         {
             return string.Format
             (
-                "{0}: {1}", 
-                "Total Records", this.gridRates.RowCount
+                "{0}: {1}", "Total Records", this.gridRates.RowCount
             );
         }
 
@@ -278,16 +260,14 @@ namespace BilllingMachine.UIForms
             {
                 return string.Format
                 (
-                    "{0}: {1}", 
-                    "Total Records", this.gridCalls.RowCount
+                    "{0}: {1}", "Total Records", this.gridCalls.RowCount
                 );
             }
             else
             {
                 return string.Format
                 (
-                    "{0} '{1}': {2}", 
-                    "Total Records in", fileName, this.gridCalls.RowCount
+                    "{0} '{1}': {2}", "Total Records in", fileName, this.gridCalls.RowCount
                 );
             }
         }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\WriteResults.cs" />
     <Compile Include="Data\Factory.cs" />
     <Compile Include="Data\FactoryCalls.cs" />
     <Compile Include="Data\FactoryCountry.cs" />
