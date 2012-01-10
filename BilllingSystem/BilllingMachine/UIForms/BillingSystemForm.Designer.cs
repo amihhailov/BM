@@ -32,10 +32,16 @@
             this.tabCommon = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.panelGeneral = new System.Windows.Forms.Panel();
-            this.lblState = new System.Windows.Forms.Label();
-            this.lblTime = new System.Windows.Forms.Label();
-            this.lblProccess = new System.Windows.Forms.Label();
+            this.grBoxUser = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.grBoxInformation = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblIterations = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.lblState = new System.Windows.Forms.Label();
+            this.lblProccess = new System.Windows.Forms.Label();
+            this.lblTime = new System.Windows.Forms.Label();
             this.tabCountry = new System.Windows.Forms.TabPage();
             this.gridCountry = new System.Windows.Forms.DataGridView();
             this.tabRates = new System.Windows.Forms.TabPage();
@@ -49,12 +55,17 @@
             this.btnCountry = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFileDialogCalls = new System.Windows.Forms.OpenFileDialog();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnViewResult = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabCommon.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.panelGeneral.SuspendLayout();
+            this.grBoxUser.SuspendLayout();
+            this.grBoxInformation.SuspendLayout();
             this.tabCountry.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCountry)).BeginInit();
             this.tabRates.SuspendLayout();
@@ -76,6 +87,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnViewResult);
             this.splitContainer1.Panel2.Controls.Add(this.lblTotalRows);
             this.splitContainer1.Panel2.Controls.Add(this.btnCalls);
             this.splitContainer1.Panel2.Controls.Add(this.btnRates);
@@ -114,55 +126,123 @@
             // 
             this.panelGeneral.BackColor = System.Drawing.SystemColors.Control;
             this.panelGeneral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelGeneral.Controls.Add(this.lblState);
-            this.panelGeneral.Controls.Add(this.lblTime);
-            this.panelGeneral.Controls.Add(this.lblProccess);
-            this.panelGeneral.Controls.Add(this.lblStatus);
+            this.panelGeneral.Controls.Add(this.grBoxUser);
+            this.panelGeneral.Controls.Add(this.grBoxInformation);
             this.panelGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGeneral.Location = new System.Drawing.Point(3, 3);
             this.panelGeneral.Name = "panelGeneral";
             this.panelGeneral.Size = new System.Drawing.Size(683, 416);
             this.panelGeneral.TabIndex = 0;
             // 
-            // lblState
+            // grBoxUser
             // 
-            this.lblState.AutoSize = true;
-            this.lblState.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblState.Location = new System.Drawing.Point(21, 109);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(161, 17);
-            this.lblState.TabIndex = 3;
-            this.lblState.Text = "STATUS: Incomplete!";
+            this.grBoxUser.Controls.Add(this.label5);
+            this.grBoxUser.Controls.Add(this.label4);
+            this.grBoxUser.Controls.Add(this.label3);
+            this.grBoxUser.Controls.Add(this.label1);
+            this.grBoxUser.Location = new System.Drawing.Point(8, 211);
+            this.grBoxUser.Name = "grBoxUser";
+            this.grBoxUser.Size = new System.Drawing.Size(665, 189);
+            this.grBoxUser.TabIndex = 5;
+            this.grBoxUser.TabStop = false;
+            this.grBoxUser.Text = "Author Information";
             // 
-            // lblTime
+            // label3
             // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.Location = new System.Drawing.Point(20, 81);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(256, 17);
-            this.lblTime.TabIndex = 2;
-            this.lblTime.Text = "TOTAL PROCCESS TIME IS: 0 ms.";
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(22, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(279, 17);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "E-MAIL: aleksei.mikhailov@gmail.com";
             // 
-            // lblProccess
+            // label1
             // 
-            this.lblProccess.AutoSize = true;
-            this.lblProccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProccess.Location = new System.Drawing.Point(21, 52);
-            this.lblProccess.Name = "lblProccess";
-            this.lblProccess.Size = new System.Drawing.Size(184, 17);
-            this.lblProccess.TabIndex = 1;
-            this.lblProccess.Text = "PROCCESSED CALLS: 0";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label1.Location = new System.Drawing.Point(184, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(301, 31);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "ALEKSEI MIHHAILOV";
+            // 
+            // grBoxInformation
+            // 
+            this.grBoxInformation.Controls.Add(this.label2);
+            this.grBoxInformation.Controls.Add(this.lblIterations);
+            this.grBoxInformation.Controls.Add(this.lblStatus);
+            this.grBoxInformation.Controls.Add(this.lblState);
+            this.grBoxInformation.Controls.Add(this.lblProccess);
+            this.grBoxInformation.Controls.Add(this.lblTime);
+            this.grBoxInformation.Location = new System.Drawing.Point(8, 13);
+            this.grBoxInformation.Name = "grBoxInformation";
+            this.grBoxInformation.Size = new System.Drawing.Size(665, 177);
+            this.grBoxInformation.TabIndex = 4;
+            this.grBoxInformation.TabStop = false;
+            this.grBoxInformation.Text = "System Information";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label2.Location = new System.Drawing.Point(211, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(251, 31);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "BILLING SYSTEM";
+            // 
+            // lblIterations
+            // 
+            this.lblIterations.AutoSize = true;
+            this.lblIterations.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblIterations.Location = new System.Drawing.Point(460, 91);
+            this.lblIterations.Name = "lblIterations";
+            this.lblIterations.Size = new System.Drawing.Size(107, 16);
+            this.lblIterations.TabIndex = 5;
+            this.lblIterations.Text = "ITERATIONS: ";
             // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.Location = new System.Drawing.Point(21, 26);
+            this.lblStatus.Location = new System.Drawing.Point(20, 65);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(134, 17);
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "COMPLETED: 0%";
+            // 
+            // lblState
+            // 
+            this.lblState.AutoSize = true;
+            this.lblState.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblState.Location = new System.Drawing.Point(460, 120);
+            this.lblState.Name = "lblState";
+            this.lblState.Size = new System.Drawing.Size(161, 17);
+            this.lblState.TabIndex = 3;
+            this.lblState.Text = "STATUS: Incomplete!";
+            // 
+            // lblProccess
+            // 
+            this.lblProccess.AutoSize = true;
+            this.lblProccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProccess.Location = new System.Drawing.Point(20, 91);
+            this.lblProccess.Name = "lblProccess";
+            this.lblProccess.Size = new System.Drawing.Size(184, 17);
+            this.lblProccess.TabIndex = 1;
+            this.lblProccess.Text = "PROCCESSED CALLS: 0";
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.Location = new System.Drawing.Point(19, 120);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(256, 17);
+            this.lblTime.TabIndex = 2;
+            this.lblTime.Text = "TOTAL PROCCESS TIME IS: 0 ms.";
             // 
             // tabCountry
             // 
@@ -278,9 +358,9 @@
             // btnRun
             // 
             this.btnRun.Enabled = false;
-            this.btnRun.Location = new System.Drawing.Point(534, 3);
+            this.btnRun.Location = new System.Drawing.Point(534, 4);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(75, 23);
+            this.btnRun.Size = new System.Drawing.Size(75, 22);
             this.btnRun.TabIndex = 2;
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
@@ -311,6 +391,36 @@
             // 
             this.openFileDialogCalls.FileName = "openFileDialog1";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(22, 109);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(224, 17);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "CELL PHONE: +372 52 90129";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(22, 142);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(219, 17);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "ADDRESS: Tallinn, Harjumaa";
+            // 
+            // btnViewResult
+            // 
+            this.btnViewResult.Location = new System.Drawing.Point(10, 4);
+            this.btnViewResult.Name = "btnViewResult";
+            this.btnViewResult.Size = new System.Drawing.Size(83, 23);
+            this.btnViewResult.TabIndex = 6;
+            this.btnViewResult.Text = "ViewResult";
+            this.btnViewResult.UseVisualStyleBackColor = true;
+            this.btnViewResult.Click += new System.EventHandler(this.btnViewResult_Click);
+            // 
             // BillingSystemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,7 +442,10 @@
             this.tabCommon.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.panelGeneral.ResumeLayout(false);
-            this.panelGeneral.PerformLayout();
+            this.grBoxUser.ResumeLayout(false);
+            this.grBoxUser.PerformLayout();
+            this.grBoxInformation.ResumeLayout(false);
+            this.grBoxInformation.PerformLayout();
             this.tabCountry.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCountry)).EndInit();
             this.tabRates.ResumeLayout(false);
@@ -366,6 +479,15 @@
         private System.Windows.Forms.Label lblProccess;
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Label lblState;
+        private System.Windows.Forms.GroupBox grBoxInformation;
+        private System.Windows.Forms.Label lblIterations;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox grBoxUser;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnViewResult;
 
 
 

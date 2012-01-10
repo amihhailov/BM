@@ -12,18 +12,13 @@ using System.Diagnostics;
 using BilllingMachine.Data;
 using BilllingMachine.Models;
 using BilllingMachine.Common;
+using System.IO;
 
 
 namespace BilllingMachine.UIForms
 {
     public partial class BillingSystemForm : Form
     {
-        const int ITERATIONS_NUM_VALUE = 100;
-
-        //const string ROOT_PROJECT_DIR = (@"..\\..\\Resources\\");
-        //const string COUNTRY_FILE_NAME = (@"..\\..\\Resources\\country.txt");
-        //const string RATES_FILE_NAME = (@"..\\..\\Resources\\rates.csv");
-
         private List<DataGridView> gridsList = new List<DataGridView>();
 
         Factory[] Factories = new Factory[3];
@@ -34,11 +29,11 @@ namespace BilllingMachine.UIForms
         private ProgressBarForm frmProgress = null;
         private Stopwatch stopWatch = null;
 
-
         public BillingSystemForm()
         {
             InitializeComponent();
             tabCommon.SelectedIndexChanged += new EventHandler(tabCommon_SelectedIndexchanged);
+            this.lblIterations.Text = "ITERATIONS: " + Globals.ITERATIONS_NUM_VALUE.ToString();
         }
 
         private void tabCommon_SelectedIndexchanged(object sender, EventArgs e)
@@ -49,14 +44,14 @@ namespace BilllingMachine.UIForms
                     btnCountry.Visible = false;
                     btnRates.Visible = false;
                     btnCalls.Visible = false;
+                    btnViewResult.Visible = true;
                     lblTotalRows.Visible = false;
-                    //prgBar.Visible = true;
                     break;
                 case 1:
                     btnCountry.Visible = true;
                     btnRates.Visible = false;
                     btnCalls.Visible = false;
-                    //prgBar.Visible = false;
+                    btnViewResult.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = this.getTotalCounrtyRows();
                     break;
@@ -64,14 +59,14 @@ namespace BilllingMachine.UIForms
                     btnCountry.Visible = false;
                     btnRates.Visible = true;
                     btnCalls.Visible = false;
-                    //prgBar.Visible = false;
+                    btnViewResult.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = this.getTotalRatesRows();
                     break;
                 case 3:
                     btnCountry.Visible = false;
                     btnRates.Visible = false;
-                    //prgBar.Visible = false;
+                    btnViewResult.Visible = false;
                     btnCalls.Visible = true;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = this.getTotalCallsRows(callsFileName);
@@ -116,112 +111,16 @@ namespace BilllingMachine.UIForms
             this.lblTotalRows.Text = this.getTotalRatesRows();
         }
 
-        #region Synchronous BackgroundWorker Thread
-
-        private void btnRun_Click(object sender, EventArgs e)
-        {
-            if (checkAllDataLoaded())
-            {
-                // Create a background thread
-                BackgroundWorker bw = new BackgroundWorker();
-                bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-
-                // Create a progress form on the UI thread
-                frmProgress = new ProgressBarForm();
-
-                // Kick off the Async thread
-                bw.RunWorkerAsync();
-
-                // Lock up the UI with this modal progress form.
-                tabCommon.SelectedTab = tabGeneral;
-                frmProgress.ShowDialog(this);
-                frmProgress = null;
-            }
-            else
-            {
-                MessageBox.Show("Check that all data in tabs were successfully loaded!");
-            }
-        }
-
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-            long calls_num = 0;
-            int prgoreesPersentage = 100 * frmProgress.progressBar.Step / ITERATIONS_NUM_VALUE;
-
-            stopWatch = new Stopwatch();
-            
-            // Seach rates for directions
-            ProcessData.ProcessRates();
-
-            // Proccess calls' list (here 100 iterations for one selected 'call.txt' file
-            stopWatch.Start();
-            for (int i = 1; i <= ITERATIONS_NUM_VALUE; i++)
-            {
-                Thread.Sleep(100);
-
-                WriteResults.RemoveOutputFile(Globals.OUTUPUT_FILE_NAME);
-                
-                frmProgress.progressBar.Invoke((MethodInvoker)delegate()
-                {
-                    this.lblState.Text = "STATUS: PROCCESSING...";
-                    frmProgress.progressBar.Value = i;
-                    calls_num = calls_num + ProcessData.ProccessCalls();
-                    this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
-                    this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
-                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", getTimeSpan(), "ms.");
-                });
-
-                if (frmProgress.CanceledProccess)
-                {
-                    // Set the e.Cancel flag so that the WorkerCompleted event
-                    // knows that the process was cancelled.
-                    e.Cancel = true;
-                    return;
-                }
-            }
-        }
-
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (frmProgress != null)
-            {
-                frmProgress.Hide();
-                frmProgress = null;
-            }
-
-            if (e.Error != null)
-            {
-                MessageBox.Show(e.Error.Message);
-                return;
-            }
-
-            // Check to see if the background process was cancelled.
-            if (e.Cancelled)
-            {
-                stopWatch.Stop();
-                lblState.Text = "STATUS: Canceled!";
-                MessageBox.Show("Processing cancelled.");
-                return;
-            }
-
-            // Everything completed normally.
-            stopWatch.Stop();
-            lblState.Text = "STATUS: Completed!";
-            MessageBox.Show("Processing is complete.");
-        }
-        #endregion
-
         private string getTimeSpan()
         {
             TimeSpan ts = stopWatch.Elapsed;
             string elapsedTime = String.Format
             (
-                "{0:00}:{1:00}:{2:00}.{3:00}", 
+                "{0:00}:{1:00}:{2:00}.{3:000}", 
                 ts.Hours, 
                 ts.Minutes, 
                 ts.Seconds, 
-                ts.Milliseconds / 10
+                ts.Milliseconds 
             );
 
             return elapsedTime;
@@ -281,6 +180,122 @@ namespace BilllingMachine.UIForms
             gridsList.Add(this.gridCountry);
             gridsList.Add(this.gridRates);
             gridsList.Add(this.gridCalls);
+        }
+
+        #region Synchronous BackgroundWorker Thread
+        private void btnRun_Click(object sender, EventArgs e)
+        {
+            if (checkAllDataLoaded())
+            {
+                // Create a background thread
+                BackgroundWorker bw = new BackgroundWorker();
+                bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+
+                // Create a progress form on the UI thread
+                frmProgress = new ProgressBarForm();
+
+                // Initialize progress bar properties
+                frmProgress.progressBar.Maximum = Globals.ITERATIONS_NUM_VALUE;
+                frmProgress.progressBar.Step = 100 / Globals.ITERATIONS_NUM_VALUE;
+
+                // Kick off the Async thread
+                bw.RunWorkerAsync();
+
+                // Lock up the UI with this modal progress form.
+                tabCommon.SelectedTab = tabGeneral;
+                frmProgress.ShowDialog(this);
+                frmProgress = null;
+            }
+            else
+            {
+                MessageBox.Show("Check that all data in tabs were successfully loaded!");
+            }
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            long calls_num = 0;
+            //int prgoreesPersentage = 100 * frmProgress.progressBar.Step / Globals.ITERATIONS_NUM_VALUE;
+
+            stopWatch = new Stopwatch();
+
+            // Seach rates for directions
+            ProcessData.ProcessRates();
+
+            // Proccess calls' list (here 100 iterations by default for one selected 'call*.txt' file)
+            stopWatch.Start();
+
+            for (int i = 1; i <= Globals.ITERATIONS_NUM_VALUE; i++)
+            {
+                Thread.Sleep(100);
+
+                WriteResults.RemoveOutputFile(Globals.OUTPUT_FILE_NAME);
+
+                frmProgress.progressBar.Invoke((MethodInvoker)delegate()
+                {
+                    this.lblState.Text = "STATUS: Proccessing...";
+                    frmProgress.progressBar.Value = i;
+                    calls_num = calls_num + ProcessData.ProccessCalls();
+                    //this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
+                    this.lblStatus.Text = "COMPLETED: " + i * frmProgress.progressBar.Step + "%";
+                    this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
+                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", getTimeSpan(), "ms.");
+                });
+
+                if (frmProgress.CanceledProccess)
+                {
+                    // Set the e.Cancel flag so that the WorkerCompleted event
+                    // knows that the process was cancelled.
+                    e.Cancel = true;
+                    return;
+                }
+            }
+        }
+
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (frmProgress != null)
+            {
+                frmProgress.Hide();
+                frmProgress = null;
+            }
+
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+                return;
+            }
+
+            // Check to see if the background process was cancelled.
+            if (e.Cancelled)
+            {
+                stopWatch.Stop();
+                lblState.Text = "STATUS: Canceled!";
+                MessageBox.Show("Processing cancelled.");
+                return;
+            }
+
+            // Everything completed normally.
+            stopWatch.Stop();
+            lblState.Text = "STATUS: Completed!";
+            btnViewResult.Visible = true;
+            MessageBox.Show("Processing is complete.");
+        }
+        #endregion
+
+        private void btnViewResult_Click(object sender, EventArgs e)
+        {
+            string currentDir = Directory.GetCurrentDirectory();
+            string outputDir = currentDir.Substring(0, currentDir.IndexOf("\\bin")) + Globals.OUTPUT_RESOURCE_DIR;
+            
+            // Verify 'output.txt' file.
+            if (!File.Exists(outputDir))
+            {
+                MessageBox.Show("File 'output.txt' does not exist!");
+                return;
+            }
+            System.Diagnostics.Process.Start(outputDir);
         }
     }
 }

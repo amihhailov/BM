@@ -54,7 +54,7 @@ namespace BilllingMachine.Data
             var keysList = Globals.DCountryRates.Keys.ToList();
             keysList.Sort(); keysList.Reverse();
 
-            using (FileStream fs = new FileStream(Globals.OUTUPUT_FILE_NAME, FileMode.CreateNew))
+            using (FileStream fs = new FileStream(Globals.OUTPUT_FILE_NAME, FileMode.CreateNew))
             {
                 // Create the writer for data.
                 using (TextWriter tw = new StreamWriter(fs))

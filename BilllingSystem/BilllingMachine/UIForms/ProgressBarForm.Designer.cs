@@ -34,7 +34,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(351, 71);
+            this.btnCancel.Location = new System.Drawing.Point(321, 53);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -46,7 +46,7 @@
             // 
             this.progressBar.Location = new System.Drawing.Point(12, 25);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(414, 28);
+            this.progressBar.Size = new System.Drawing.Size(384, 21);
             this.progressBar.Step = 1;
             this.progressBar.TabIndex = 6;
             // 
@@ -54,7 +54,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(438, 106);
+            this.ClientSize = new System.Drawing.Size(407, 83);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
