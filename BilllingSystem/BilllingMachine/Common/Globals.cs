@@ -21,9 +21,10 @@ namespace BilllingMachine.Common
         public const string OUTPUT_FILE_NAME = (@"..\\..\\Resources\\output.txt");
         public const string OUTPUT_RESOURCE_DIR = "\\Resources\\output.txt";
 
-        // Special chartes
+        // Special charters
         public const string EMPTY_STRING = "";
         public const string WHITE_SPACE = " ";
+        public const string COMMA_VALUTE = ",";
         public const string LINE_FOLDING = "\r\n";
         public const string MOBILE_VALUE = "Mobile";
 

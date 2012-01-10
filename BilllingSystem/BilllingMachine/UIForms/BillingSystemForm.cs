@@ -182,6 +182,20 @@ namespace BilllingMachine.UIForms
             gridsList.Add(this.gridCalls);
         }
 
+        private void btnViewResult_Click(object sender, EventArgs e)
+        {
+            string currentDir = Directory.GetCurrentDirectory();
+            string outputDir = currentDir.Substring(0, currentDir.IndexOf("\\bin")) + Globals.OUTPUT_RESOURCE_DIR;
+
+            // Verify 'output.txt' file.
+            if (!File.Exists(outputDir))
+            {
+                MessageBox.Show("File 'output.txt' does not exist!");
+                return;
+            }
+            System.Diagnostics.Process.Start(outputDir);
+        }
+
         #region Synchronous BackgroundWorker Thread
         private void btnRun_Click(object sender, EventArgs e)
         {
@@ -230,8 +244,6 @@ namespace BilllingMachine.UIForms
             {
                 Thread.Sleep(100);
 
-                WriteResults.RemoveOutputFile(Globals.OUTPUT_FILE_NAME);
-
                 frmProgress.progressBar.Invoke((MethodInvoker)delegate()
                 {
                     this.lblState.Text = "STATUS: Proccessing...";
@@ -240,17 +252,24 @@ namespace BilllingMachine.UIForms
                     //this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
                     this.lblStatus.Text = "COMPLETED: " + i * frmProgress.progressBar.Step + "%";
                     this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
-                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", getTimeSpan(), "ms.");
+                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", this.getTimeSpan(), "ms.");
                 });
 
+                // Cancel or cross buttons pressed
                 if (frmProgress.CanceledProccess)
                 {
                     // Set the e.Cancel flag so that the WorkerCompleted event
                     // knows that the process was cancelled.
+                    stopWatch.Stop();
+                    lblState.Text = "STATUS: Canceled!";
                     e.Cancel = true;
                     return;
                 }
             }
+            stopWatch.Stop();
+
+            // Print results to the 'output.txt' file
+            ProcessData.PrintResultsToFile(Globals.OUTPUT_FILE_NAME, this.getTimeSpan());
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -270,32 +289,15 @@ namespace BilllingMachine.UIForms
             // Check to see if the background process was cancelled.
             if (e.Cancelled)
             {
-                stopWatch.Stop();
-                lblState.Text = "STATUS: Canceled!";
                 MessageBox.Show("Processing cancelled.");
                 return;
             }
 
             // Everything completed normally.
-            stopWatch.Stop();
             lblState.Text = "STATUS: Completed!";
             btnViewResult.Visible = true;
             MessageBox.Show("Processing is complete.");
         }
         #endregion
-
-        private void btnViewResult_Click(object sender, EventArgs e)
-        {
-            string currentDir = Directory.GetCurrentDirectory();
-            string outputDir = currentDir.Substring(0, currentDir.IndexOf("\\bin")) + Globals.OUTPUT_RESOURCE_DIR;
-            
-            // Verify 'output.txt' file.
-            if (!File.Exists(outputDir))
-            {
-                MessageBox.Show("File 'output.txt' does not exist!");
-                return;
-            }
-            System.Diagnostics.Process.Start(outputDir);
-        }
     }
 }
