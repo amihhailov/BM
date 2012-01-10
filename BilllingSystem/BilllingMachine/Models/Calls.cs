@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BilllingMachine.Models
 {
-    public class Calls
+    public class Calls : CountryRates
     {
         // Default constructor
         public Calls() { }

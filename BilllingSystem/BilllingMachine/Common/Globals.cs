@@ -30,7 +30,7 @@ namespace BilllingMachine.Common
         // Lists 
         public static List<Country> LCountry;
         public static List<Calls> LCalls;
-        //public static List<string, CountryRates> LPhone;
+        public static List<CallsRates> LCallsRates;
 
         // Dictionaries
         public static Dictionary<string, CountryRates> DCountryRates;

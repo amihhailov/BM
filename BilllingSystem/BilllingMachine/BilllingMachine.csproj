@@ -59,6 +59,7 @@
     <Compile Include="Data\LoadCalls.cs" />
     <Compile Include="Data\LoadCountry.cs" />
     <Compile Include="Data\LoadRates.cs" />
+    <Compile Include="Models\CallsRates.cs" />
     <Compile Include="Models\Calls.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CountryRates.cs" />

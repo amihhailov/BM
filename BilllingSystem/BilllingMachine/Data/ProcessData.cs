@@ -25,7 +25,8 @@ namespace BilllingMachine.Data
                         country.Code, 
                         country.FullDirection, 
                         country.Direction, 
-                        Globals.DFixedRates[country.Direction].Price
+                        Globals.DFixedRates[country.Direction].Price,
+                        false
                     );
                     Globals.DCountryRates.Add(cr.Code, cr);
                 }
@@ -36,7 +37,8 @@ namespace BilllingMachine.Data
                         country.Code, 
                         country.FullDirection, 
                         country.Direction, 
-                        Globals.DMobileRates[country.Direction].Price
+                        Globals.DMobileRates[country.Direction].Price,
+                        true
                     );
                     Globals.DCountryRates.Add(cr.Code, cr);
                 }
@@ -48,41 +50,51 @@ namespace BilllingMachine.Data
             long callsNum = 0;
             string phone = Globals.EMPTY_STRING;
 
-            Dictionary<string, CountryRates> DPhone = new Dictionary<string, CountryRates>(); 
+            Dictionary<string, CountryRates> DPhone = new Dictionary<string, CountryRates>();
+            Globals.LCallsRates = new List<CallsRates>();
+            CallsRates cr = null;
 
             // Acquire keys, sort and reverse them.
             var keysList = Globals.DCountryRates.Keys.ToList();
             keysList.Sort(); keysList.Reverse();
 
-            using (FileStream fs = new FileStream(Globals.OUTPUT_FILE_NAME, FileMode.CreateNew))
-            {
-                // Create the writer for data.
-                using (TextWriter tw = new StreamWriter(fs))
-                {
+            //using (FileStream fs = new FileStream(Globals.OUTPUT_FILE_NAME, FileMode.CreateNew))
+            //{
+            //    // Create the writer for data.
+            //    using (TextWriter tw = new StreamWriter(fs))
+            //    {
                     foreach (Calls call in Globals.LCalls)
                     {
                         callsNum++;
                         if (DPhone.ContainsKey(call.Phone))
                         {
-                            //List<Calls> ListCalls = Globals.DPhone[call.Phone];
-                            //ListCalls.Add(call);
-                            //Globals.DPhone.Remove(call.Phone);
-                            //Globals.DPhone.Add(call.Phone, ListCalls);
-                            tw.WriteLine
+                            cr = new CallsRates
                             (
-                                string.Format
-                                (
-                                    "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
-                                    call.Phone, 
-                                    DPhone[call.Phone].Code,
-                                    DPhone[call.Phone].FullDirection,
-                                    DPhone[call.Phone].Direction,
-                                    call.Duration,
-                                    call.Duration,
-                                    DPhone[call.Phone].Price,
-                                    DPhone[call.Phone].Direction
-                                )
+                                call.Phone, 
+                                DPhone[call.Phone].Code, 
+                                DPhone[call.Phone].FullDirection,
+                                DPhone[call.Phone].Direction,
+                                DPhone[call.Phone].Price,
+                                call.Duration,
+                                DPhone[call.Phone].Mobile
                             );
+                            Globals.LCallsRates.Add(cr);
+                            
+                            //tw.WriteLine
+                            //(
+                            //    string.Format
+                            //    (
+                            //        "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
+                            //        call.Phone, 
+                            //        DPhone[call.Phone].Code,
+                            //        DPhone[call.Phone].FullDirection,
+                            //        DPhone[call.Phone].Direction,
+                            //        call.Duration,
+                            //        call.Duration,
+                            //        DPhone[call.Phone].Price,
+                            //        DPhone[call.Phone].Direction
+                            //    )
+                            //);
                             continue;
                         }
 
@@ -96,30 +108,41 @@ namespace BilllingMachine.Data
                             }
                         }
 
-                        //List<Calls> LCalls = new List<Calls>();
-                        //LCalls.Add(call);
-                        //Globals.DPhone.Add(call.Phone, LCalls);
                         DPhone.Add(call.Phone, Globals.DCountryRates[phone]);
-                        tw.WriteLine
+                        //tw.WriteLine
+                        //(
+                        //    string.Format
+                        //    (
+                        //        "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
+                        //        call.Phone,
+                        //        DPhone[call.Phone].Code,
+                        //        DPhone[call.Phone].FullDirection,
+                        //        DPhone[call.Phone].Direction,
+                        //        call.Duration,
+                        //        call.Duration,
+                        //        DPhone[call.Phone].Price,
+                        //        DPhone[call.Phone].Direction
+                        //    )
+                        //);
+
+
+                        cr = new CallsRates
                         (
-                            string.Format
-                            (
-                                "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
-                                call.Phone,
-                                DPhone[call.Phone].Code,
-                                DPhone[call.Phone].FullDirection,
-                                DPhone[call.Phone].Direction,
-                                call.Duration,
-                                call.Duration,
-                                DPhone[call.Phone].Price,
-                                DPhone[call.Phone].Direction
-                            )
+                            call.Phone,
+                            DPhone[call.Phone].Code,
+                            DPhone[call.Phone].FullDirection,
+                            DPhone[call.Phone].Direction,
+                            DPhone[call.Phone].Price,
+                            call.Duration,
+                            DPhone[call.Phone].Mobile
                         );
+                        Globals.LCallsRates.Add(cr);
+
                         phone = Globals.EMPTY_STRING;
-                    }
-                    // close the stream
-                    tw.Close();
-                }
+                //    }
+                //    // close the stream
+                //    tw.Close();
+                //}
             }
 
             return callsNum;
