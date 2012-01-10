@@ -187,7 +187,7 @@ namespace BilllingMachine.UIForms
             string currentDir = Directory.GetCurrentDirectory();
             string outputDir = currentDir.Substring(0, currentDir.IndexOf("\\bin")) + Globals.OUTPUT_RESOURCE_DIR;
 
-            // Verify 'output.txt' file.
+            // Verify that 'output.txt' file exists.
             if (!File.Exists(outputDir))
             {
                 MessageBox.Show("File 'output.txt' does not exist!");
@@ -230,7 +230,6 @@ namespace BilllingMachine.UIForms
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             long calls_num = 0;
-            //int prgoreesPersentage = 100 * frmProgress.progressBar.Step / Globals.ITERATIONS_NUM_VALUE;
 
             stopWatch = new Stopwatch();
 
@@ -249,7 +248,6 @@ namespace BilllingMachine.UIForms
                     this.lblState.Text = "STATUS: Proccessing...";
                     frmProgress.progressBar.Value = i;
                     calls_num = calls_num + ProcessData.ProccessCalls();
-                    //this.lblStatus.Text = "COMPLETED: " + i * prgoreesPersentage + "%";
                     this.lblStatus.Text = "COMPLETED: " + i * frmProgress.progressBar.Step + "%";
                     this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
                     this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", this.getTimeSpan(), "ms.");
@@ -269,7 +267,7 @@ namespace BilllingMachine.UIForms
             stopWatch.Stop();
 
             // Print results to the 'output.txt' file
-            ProcessData.PrintResultsToFile(Globals.OUTPUT_FILE_NAME, this.getTimeSpan());
+            ProcessData.ProcessResults(Globals.OUTPUT_FILE_NAME, this.getTimeSpan());
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -299,5 +297,10 @@ namespace BilllingMachine.UIForms
             MessageBox.Show("Processing is complete.");
         }
         #endregion
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

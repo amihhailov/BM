@@ -24,7 +24,7 @@ namespace BilllingMachine.Common
         // Special charters
         public const string EMPTY_STRING = "";
         public const string WHITE_SPACE = " ";
-        public const string COMMA_VALUTE = ",";
+        public const string SEMICOLON_SIGN = ";";
         public const string LINE_FOLDING = "\r\n";
         public const string MOBILE_VALUE = "Mobile";
 
@@ -37,7 +37,5 @@ namespace BilllingMachine.Common
         public static Dictionary<string, CountryRates> DCountryRates;
         public static Dictionary<string, MobileRates> DMobileRates;
         public static Dictionary<string, FixedRates> DFixedRates;
-        // public static Dictionary<string, List<Calls>> DPhone;
-        // public static Dictionary<string, CountryRates> DPhone;
     }
 }

@@ -107,7 +107,7 @@ namespace BilllingMachine.Data
             return callsNum;
         }
 
-        public static void PrintResultsToFile(string fileName, string elapsedTime)
+        public static void ProcessResults(string fileName, string elapsedTime)
         {
             // Create the new, empty data file.
             if (File.Exists(fileName))
@@ -132,23 +132,35 @@ namespace BilllingMachine.Data
                 {
                     foreach (CallsRates cr in Globals.LCallsRates)
                     {
+                        //tw.WriteLine
+                        //(
+                        //    string.Format
+                        //    (
+                        //        "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
+                        //        cr.Phone,
+                        //        cr.Code,
+                        //        cr.FullDirection,
+                        //        cr.Direction,
+                        //        cr.Duration,
+                        //        cr.RoundDuration,
+                        //        cr.Cost,
+                        //        cr.Direction
+                        //    )
+                        //);
+
                         tw.WriteLine
                         (
-                            string.Format
-                            (
-                                "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
-                                cr.Phone,
-                                cr.Code,
-                                cr.FullDirection,
-                                cr.Direction,
-                                cr.Duration,
-                                cr.RoundDuration,
-                                cr.Cost,
-                                cr.Direction
-                            )
+                            cr.Phone + Globals.SEMICOLON_SIGN
+                            + cr.FullDirection + Globals.SEMICOLON_SIGN
+                            + cr.Direction + Globals.SEMICOLON_SIGN
+                            + cr.Duration + Globals.SEMICOLON_SIGN
+                            + cr.RoundDuration + Globals.SEMICOLON_SIGN
+                            + cr.Direction + Globals.SEMICOLON_SIGN
+                            + cr.Price + Globals.SEMICOLON_SIGN
+                            + cr.Cost + Globals.SEMICOLON_SIGN
                         );
                     }
-                    tw.WriteLine("{0} Elapsed Time is: {1} ms.", Environment.NewLine, elapsedTime);
+                    tw.WriteLine("{0}Elapsed Time is: {1} ms.", Environment.NewLine, elapsedTime);
 
                     // close the stream
                     tw.Close();

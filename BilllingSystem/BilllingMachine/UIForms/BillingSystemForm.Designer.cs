@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.tabCommon = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.panelGeneral = new System.Windows.Forms.Panel();
@@ -58,9 +58,9 @@
             this.btnCountry = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFileDialogCalls = new System.Windows.Forms.OpenFileDialog();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             this.tabCommon.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.panelGeneral.SuspendLayout();
@@ -74,29 +74,31 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCalls)).BeginInit();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // splitContainer
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.IsSplitterFixed = true;
+            this.splitContainer.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer.Name = "splitContainer";
+            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // splitContainer.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabCommon);
+            this.splitContainer.Panel1.Controls.Add(this.tabCommon);
             // 
-            // splitContainer1.Panel2
+            // splitContainer.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.btnViewResult);
-            this.splitContainer1.Panel2.Controls.Add(this.lblTotalRows);
-            this.splitContainer1.Panel2.Controls.Add(this.btnCalls);
-            this.splitContainer1.Panel2.Controls.Add(this.btnRates);
-            this.splitContainer1.Panel2.Controls.Add(this.btnRun);
-            this.splitContainer1.Panel2.Controls.Add(this.btnCountry);
-            this.splitContainer1.Panel2.Controls.Add(this.btnClose);
-            this.splitContainer1.Size = new System.Drawing.Size(700, 493);
-            this.splitContainer1.SplitterDistance = 454;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer.Panel2.Controls.Add(this.btnViewResult);
+            this.splitContainer.Panel2.Controls.Add(this.lblTotalRows);
+            this.splitContainer.Panel2.Controls.Add(this.btnCalls);
+            this.splitContainer.Panel2.Controls.Add(this.btnRates);
+            this.splitContainer.Panel2.Controls.Add(this.btnRun);
+            this.splitContainer.Panel2.Controls.Add(this.btnCountry);
+            this.splitContainer.Panel2.Controls.Add(this.btnClose);
+            this.splitContainer.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+            this.splitContainer.Size = new System.Drawing.Size(700, 493);
+            this.splitContainer.SplitterDistance = 454;
+            this.splitContainer.TabIndex = 0;
             // 
             // tabCommon
             // 
@@ -427,7 +429,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(700, 493);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitContainer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(706, 521);
@@ -435,10 +437,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BillingSystem";
             this.Load += new System.EventHandler(this.BillingSystem_Load);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel2.ResumeLayout(false);
+            this.splitContainer.Panel2.PerformLayout();
+            this.splitContainer.ResumeLayout(false);
             this.tabCommon.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.panelGeneral.ResumeLayout(false);
@@ -458,7 +460,7 @@
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.TabControl tabCommon;
         private System.Windows.Forms.TabPage tabGeneral;
         private System.Windows.Forms.TabPage tabCountry;
