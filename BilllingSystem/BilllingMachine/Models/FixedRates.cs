@@ -7,6 +7,7 @@ namespace BilllingMachine.Models
 {
     public class FixedRates : Rates
     {
+        // Default constructor
         public FixedRates() { }
 
         public FixedRates(string direction, string price)
@@ -15,6 +16,7 @@ namespace BilllingMachine.Models
             this.Price = price;
         }
 
+        // Properties
         public string Price { get; set; }
     }
 }

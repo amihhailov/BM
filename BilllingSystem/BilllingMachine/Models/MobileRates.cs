@@ -7,6 +7,7 @@ namespace BilllingMachine.Models
 {
     public class MobileRates : Rates
     {
+        // Default constructor
         public MobileRates() { }
 
         public MobileRates(string direction, string price)
@@ -15,6 +16,7 @@ namespace BilllingMachine.Models
             this.Price = price;
         }
 
+        // Properties
         public string Price { get; set; }
     }
 }

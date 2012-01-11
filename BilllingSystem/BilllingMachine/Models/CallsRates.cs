@@ -30,6 +30,7 @@ namespace BilllingMachine.Models
         public int RoundDuration { get; set; }
         public string Cost { get; set; }
 
+        // Helper methods
         public int roundDuration(string duration, bool mobile)
         {
             // Convert price to float in seconds

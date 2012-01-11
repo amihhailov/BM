@@ -8,12 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using System.IO;
 
 using BilllingMachine.Data;
 using BilllingMachine.Models;
 using BilllingMachine.Common;
-using System.IO;
-
 
 namespace BilllingMachine.UIForms
 {

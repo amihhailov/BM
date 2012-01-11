@@ -10,7 +10,6 @@ using System.IO;
 
 using BilllingMachine.Data;
 using BilllingMachine.Common;
-//using BilllingMachine.Models;
 
 namespace BillingMachineWinService
 {

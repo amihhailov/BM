@@ -22,6 +22,5 @@ namespace BilllingMachine.UIForms
         {
             this.CanceledProccess = true;
         }
-
     }
 }
