@@ -125,29 +125,13 @@ namespace BilllingMachine.Data
                 }
             }
 
-            using (FileStream fs = new FileStream(Globals.OUTPUT_FILE_NAME, FileMode.CreateNew))
+            using (FileStream fs = new FileStream(fileName, FileMode.CreateNew))
             {
                 // Create the writer for data.
                 using (TextWriter tw = new StreamWriter(fs))
                 {
                     foreach (CallsRates cr in Globals.LCallsRates)
                     {
-                        //tw.WriteLine
-                        //(
-                        //    string.Format
-                        //    (
-                        //        "{0,-14} {1,-8} {2,-30} {3,-22} {4,-4} {5,-7} {6,-6} {7}",
-                        //        cr.Phone,
-                        //        cr.Code,
-                        //        cr.FullDirection,
-                        //        cr.Direction,
-                        //        cr.Duration,
-                        //        cr.RoundDuration,
-                        //        cr.Cost,
-                        //        cr.Direction
-                        //    )
-                        //);
-
                         tw.WriteLine
                         (
                             cr.Phone + Globals.SEMICOLON_SIGN

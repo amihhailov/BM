@@ -44,7 +44,7 @@ namespace BilllingMachine.Data
                 {
                     if (row.Length == 0) continue;
                     string[] columns = row.Split(DELIMETER_SYMBOL.ToCharArray());
-                    if (columns.Length != GRID_COLUMN_NUM) 
+                    if (columns.Length != GRID_COLUMN_NUM)
                         throw new DataException("Invalid 'country.txt' file format.");
 
                     dataset.Tables[COUNTRY_GRID_NAME].Rows.Add(columns);

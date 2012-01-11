@@ -53,7 +53,7 @@ namespace BilllingMachine.UIForms
                     btnCalls.Visible = false;
                     btnViewResult.Visible = false;
                     lblTotalRows.Visible = true;
-                    lblTotalRows.Text = this.getTotalCounrtyRows();
+                    lblTotalRows.Text = Utils.getTotalCounrtyRows(this.gridCountry);
                     break;
                 case 2:
                     btnCountry.Visible = false;
@@ -61,7 +61,7 @@ namespace BilllingMachine.UIForms
                     btnCalls.Visible = false;
                     btnViewResult.Visible = false;
                     lblTotalRows.Visible = true;
-                    lblTotalRows.Text = this.getTotalRatesRows();
+                    lblTotalRows.Text = Utils.getTotalRatesRows(this.gridRates);
                     break;
                 case 3:
                     btnCountry.Visible = false;
@@ -69,7 +69,7 @@ namespace BilllingMachine.UIForms
                     btnViewResult.Visible = false;
                     btnCalls.Visible = true;
                     lblTotalRows.Visible = true;
-                    lblTotalRows.Text = this.getTotalCallsRows(callsFileName);
+                    lblTotalRows.Text = Utils.getTotalCallsRows(callsFileName, this.gridCalls);
                     break;
             }
         }
@@ -82,7 +82,7 @@ namespace BilllingMachine.UIForms
         private void btnCountry_Click(object sender, EventArgs e)
         {
             this.gridCountry.DataSource = Factories[0].GetDataSource().LoadData(Globals.COUNTRY_FILE_NAME).Tables[0].DefaultView;
-            this.lblTotalRows.Text = this.getTotalCounrtyRows();
+            this.lblTotalRows.Text = Utils.getTotalCounrtyRows(this.gridCountry);
         }
 
         private void btnCalls_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace BilllingMachine.UIForms
                 callsFilesPath = fDialog.FileName.ToString();
                 callsFileName = fDialog.SafeFileName;
                 this.gridCalls.DataSource = Factories[2].GetDataSource().LoadData(callsFilesPath).Tables[0].DefaultView;
-                this.lblTotalRows.Text = this.getTotalCallsRows(callsFileName);
+                this.lblTotalRows.Text = Utils.getTotalCallsRows(callsFileName, this.gridCalls);
                 this.btnRun.Enabled = true;
             }
         }
@@ -108,23 +108,23 @@ namespace BilllingMachine.UIForms
         private void btnRates_Click(object sender, EventArgs e)
         {
             this.gridRates.DataSource = Factories[1].GetDataSource().LoadData(Globals.RATES_FILE_NAME).Tables[0].DefaultView;
-            this.lblTotalRows.Text = this.getTotalRatesRows();
+            this.lblTotalRows.Text = Utils.getTotalRatesRows(this.gridRates);
         }
 
-        private string getTimeSpan()
-        {
-            TimeSpan ts = stopWatch.Elapsed;
-            string elapsedTime = String.Format
-            (
-                "{0:00}:{1:00}:{2:00}.{3:000}", 
-                ts.Hours, 
-                ts.Minutes, 
-                ts.Seconds, 
-                ts.Milliseconds 
-            );
+        //private string getTimeSpan()
+        //{
+        //    TimeSpan ts = stopWatch.Elapsed;
+        //    string elapsedTime = String.Format
+        //    (
+        //        "{0:00}:{1:00}:{2:00}.{3:000}", 
+        //        ts.Hours, 
+        //        ts.Minutes, 
+        //        ts.Seconds, 
+        //        ts.Milliseconds 
+        //    );
 
-            return elapsedTime;
-        }
+        //    return elapsedTime;
+        //}
 
         private bool checkAllDataLoaded()
         {
@@ -135,51 +135,6 @@ namespace BilllingMachine.UIForms
             }
 
             return true;
-        }
-
-        private string getTotalCounrtyRows()
-        {
-            return string.Format
-            (
-                "{0}: {1}", "Total Records", this.gridCountry.RowCount
-            );
-        }
-
-        private string getTotalRatesRows()
-        {
-            return string.Format
-            (
-                "{0}: {1}", "Total Records", this.gridRates.RowCount
-            );
-        }
-
-        private string getTotalCallsRows(string fileName)
-        {
-            if (fileName.Equals(Globals.EMPTY_STRING))
-            {
-                return string.Format
-                (
-                    "{0}: {1}", "Total Records", this.gridCalls.RowCount
-                );
-            }
-            else
-            {
-                return string.Format
-                (
-                    "{0} '{1}': {2}", "Total Records in", fileName, this.gridCalls.RowCount
-                );
-            }
-        }
-
-        private void BillingSystem_Load(object sender, EventArgs e)
-        {
-            Factories[0] = new FactoryCountry();
-            Factories[1] = new FactoryRates();
-            Factories[2] = new FactoryCalls();
-
-            gridsList.Add(this.gridCountry);
-            gridsList.Add(this.gridRates);
-            gridsList.Add(this.gridCalls);
         }
 
         private void btnViewResult_Click(object sender, EventArgs e)
@@ -194,6 +149,17 @@ namespace BilllingMachine.UIForms
                 return;
             }
             System.Diagnostics.Process.Start(outputDir);
+        }
+
+        private void BillingSystem_Load(object sender, EventArgs e)
+        {
+            Factories[0] = new FactoryCountry();
+            Factories[1] = new FactoryRates();
+            Factories[2] = new FactoryCalls();
+
+            gridsList.Add(this.gridCountry);
+            gridsList.Add(this.gridRates);
+            gridsList.Add(this.gridCalls);
         }
 
         #region Synchronous BackgroundWorker Thread
@@ -250,7 +216,7 @@ namespace BilllingMachine.UIForms
                     calls_num = calls_num + ProcessData.ProccessCalls();
                     this.lblStatus.Text = "COMPLETED: " + i * frmProgress.progressBar.Step + "%";
                     this.lblProccess.Text = "PROCCESSED CALLS: " + calls_num.ToString();
-                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", this.getTimeSpan(), "ms.");
+                    this.lblTime.Text = string.Format("{0} {1} {2}", "TOTAL PROCCESS TIME IS:", Utils.getTimeSpan(stopWatch), "ms.");
                 });
 
                 // Cancel or cross buttons pressed
@@ -259,15 +225,14 @@ namespace BilllingMachine.UIForms
                     // Set the e.Cancel flag so that the WorkerCompleted event
                     // knows that the process was cancelled.
                     stopWatch.Stop();
-                    lblState.Text = "STATUS: Canceled!";
                     e.Cancel = true;
                     return;
                 }
             }
             stopWatch.Stop();
 
-            // Print results to the 'output.txt' file
-            ProcessData.ProcessResults(Globals.OUTPUT_FILE_NAME, this.getTimeSpan());
+            // Print results to the 'output.txt' file by default
+            ProcessData.ProcessResults(Globals.OUTPUT_FILE_NAME, Utils.getTimeSpan(stopWatch));
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -287,6 +252,7 @@ namespace BilllingMachine.UIForms
             // Check to see if the background process was cancelled.
             if (e.Cancelled)
             {
+                lblState.Text = "STATUS: Canceled!";
                 MessageBox.Show("Processing cancelled.");
                 return;
             }
@@ -297,10 +263,5 @@ namespace BilllingMachine.UIForms
             MessageBox.Show("Processing is complete.");
         }
         #endregion
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

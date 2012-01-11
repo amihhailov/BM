@@ -3,6 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BilllingMachine", "BilllingMachine\BilllingMachine.csproj", "{F61BD117-C936-401B-A522-4555086B9AD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingMachineWinService", "BillingMachineWinService\BillingMachineWinService.csproj", "{D0748154-0B9F-4885-A045-9C79C9535577}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F61BD117-C936-401B-A522-4555086B9AD3} = {F61BD117-C936-401B-A522-4555086B9AD3}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "BillingMachineWinServiceSetup", "BillingMachineWinServiceSetup\BillingMachineWinServiceSetup.vdproj", "{80440516-61AC-45A7-A7E7-0FC9EFD01921}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +20,12 @@ Global
 		{F61BD117-C936-401B-A522-4555086B9AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F61BD117-C936-401B-A522-4555086B9AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F61BD117-C936-401B-A522-4555086B9AD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0748154-0B9F-4885-A045-9C79C9535577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0748154-0B9F-4885-A045-9C79C9535577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0748154-0B9F-4885-A045-9C79C9535577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0748154-0B9F-4885-A045-9C79C9535577}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80440516-61AC-45A7-A7E7-0FC9EFD01921}.Debug|Any CPU.ActiveCfg = Debug
+		{80440516-61AC-45A7-A7E7-0FC9EFD01921}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

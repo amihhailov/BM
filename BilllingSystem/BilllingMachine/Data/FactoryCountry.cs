@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BilllingMachine.Data
 {
-    class FactoryCountry : Factory
+    public class FactoryCountry : Factory
     {
         // Factory Method Implementation 
         public override ILoadData GetDataSource() 
