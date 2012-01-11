@@ -58,6 +58,7 @@
             this.btnCountry = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.openFileDialogCalls = new System.Windows.Forms.OpenFileDialog();
+            this.lblOutput = new System.Windows.Forms.Label();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -88,6 +89,7 @@
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.lblOutput);
             this.splitContainer.Panel2.Controls.Add(this.btnViewResult);
             this.splitContainer.Panel2.Controls.Add(this.lblTotalRows);
             this.splitContainer.Panel2.Controls.Add(this.btnCalls);
@@ -422,6 +424,16 @@
             // 
             this.openFileDialogCalls.FileName = "openFileDialog1";
             // 
+            // lblOutput
+            // 
+            this.lblOutput.AutoSize = true;
+            this.lblOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutput.Location = new System.Drawing.Point(104, 9);
+            this.lblOutput.Name = "lblOutput";
+            this.lblOutput.Size = new System.Drawing.Size(0, 13);
+            this.lblOutput.TabIndex = 7;
+            this.lblOutput.Visible = false;
+            // 
             // BillingSystemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -489,6 +501,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnViewResult;
+        private System.Windows.Forms.Label lblOutput;
 
 
 

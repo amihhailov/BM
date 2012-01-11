@@ -45,6 +45,7 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = false;
                     btnCalls.Visible = false;
                     btnViewResult.Visible = true;
+                    lblOutput.Visible = true;
                     lblTotalRows.Visible = false;
                     break;
                 case 1:
@@ -52,6 +53,7 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = false;
                     btnCalls.Visible = false;
                     btnViewResult.Visible = false;
+                    lblOutput.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = Utils.getTotalCounrtyRows(this.gridCountry);
                     break;
@@ -60,6 +62,7 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = true;
                     btnCalls.Visible = false;
                     btnViewResult.Visible = false;
+                    lblOutput.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = Utils.getTotalRatesRows(this.gridRates);
                     break;
@@ -68,6 +71,7 @@ namespace BilllingMachine.UIForms
                     btnRates.Visible = false;
                     btnViewResult.Visible = false;
                     btnCalls.Visible = true;
+                    lblOutput.Visible = false;
                     lblTotalRows.Visible = true;
                     lblTotalRows.Text = Utils.getTotalCallsRows(callsFileName, this.gridCalls);
                     break;
@@ -111,36 +115,10 @@ namespace BilllingMachine.UIForms
             this.lblTotalRows.Text = Utils.getTotalRatesRows(this.gridRates);
         }
 
-        //private string getTimeSpan()
-        //{
-        //    TimeSpan ts = stopWatch.Elapsed;
-        //    string elapsedTime = String.Format
-        //    (
-        //        "{0:00}:{1:00}:{2:00}.{3:000}", 
-        //        ts.Hours, 
-        //        ts.Minutes, 
-        //        ts.Seconds, 
-        //        ts.Milliseconds 
-        //    );
-
-        //    return elapsedTime;
-        //}
-
-        private bool checkAllDataLoaded()
-        {
-            foreach (DataGridView gridName in gridsList)
-            {
-                if (gridName.RowCount == 0) 
-                    return false;
-            }
-
-            return true;
-        }
-
         private void btnViewResult_Click(object sender, EventArgs e)
         {
             string currentDir = Directory.GetCurrentDirectory();
-            string outputDir = currentDir.Substring(0, currentDir.IndexOf("\\bin")) + Globals.OUTPUT_RESOURCE_DIR;
+            string outputDir = currentDir.Substring(0, currentDir.IndexOf("\\bin")) + Globals.OUTPUT_RESOURCE_DIR + "-" + callsFileName;
 
             // Verify that 'output.txt' file exists.
             if (!File.Exists(outputDir))
@@ -165,7 +143,7 @@ namespace BilllingMachine.UIForms
         #region Synchronous BackgroundWorker Thread
         private void btnRun_Click(object sender, EventArgs e)
         {
-            if (checkAllDataLoaded())
+            if (Utils.checkAllDataLoaded(gridsList))
             {
                 // Create a background thread
                 BackgroundWorker bw = new BackgroundWorker();
@@ -232,7 +210,11 @@ namespace BilllingMachine.UIForms
             stopWatch.Stop();
 
             // Print results to the 'output.txt' file by default
-            ProcessData.ProcessResults(Globals.OUTPUT_FILE_NAME, Utils.getTimeSpan(stopWatch));
+            ProcessData.ProcessResults
+            (
+                Globals.OUTPUT_FILE_NAME + "-" + callsFileName, 
+                Utils.getTimeSpan(stopWatch)
+            );
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -259,6 +241,8 @@ namespace BilllingMachine.UIForms
 
             // Everything completed normally.
             lblState.Text = "STATUS: Completed!";
+            lblOutput.Text = "'" + Globals.OUTPUT_FILE_NAME_PREFIX + "-" + callsFileName + "'";
+            lblOutput.Visible = true;
             btnViewResult.Visible = true;
             MessageBox.Show("Processing is complete.");
         }

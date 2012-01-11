@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.IO;
 
 namespace BilllingMachine.Common
 {
@@ -22,6 +23,17 @@ namespace BilllingMachine.Common
             );
 
             return elapsedTime;
+        }
+
+        public static bool checkAllDataLoaded(List<DataGridView> gridsList)
+        {
+            foreach (DataGridView gridName in gridsList)
+            {
+                if (gridName.RowCount == 0) 
+                    return false;
+            }
+
+            return true;
         }
 
         public static string getTotalCallsRows(string fileName, DataGridView gridName)
@@ -56,6 +68,39 @@ namespace BilllingMachine.Common
             (
                 "{0}: {1}", "Total Records", gridName.RowCount
             );
+        }
+
+        public static bool isFileExist(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool isDirExist(string dirName)
+        {
+            // Create the new, empty data file.
+            if (!Directory.Exists(dirName))
+            {
+                try
+                {
+                    Directory.CreateDirectory(dirName);
+                    return true;
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e);
+                    return false;
+                }
+
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
