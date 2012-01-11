@@ -109,6 +109,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="readme.txt" />
     <Content Include="Resources\calls1.txt" />
     <Content Include="Resources\calls2.txt" />
     <Content Include="Resources\calls3.txt" />
