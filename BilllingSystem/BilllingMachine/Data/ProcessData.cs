@@ -80,7 +80,7 @@ namespace BilllingMachine.Data
                 // Loop through keys
                 foreach (var key in keysList)
                 {
-                    if ((call.Phone.Equals(key)) || (call.Phone.StartsWith(key)))
+                    if (call.Phone.StartsWith(key))
                     {
                         phone = key;
                         break;
